@@ -17,14 +17,19 @@
   document.querySelectorAll('.slide-section').forEach((section, i) => {
     ScrollTrigger.create({
       trigger: section,
-      start: "top bottom",
-      end: "bottom bottom",
-      markers: false,
-      onUpdate: self => {
-        if (self.progress >= 0) {
-          gsap.to(bgBlend, { backgroundColor: bgColors[i], duration: 0.2, ease: "sine.inOut" });
-        } else if (i >= 1) {
-          gsap.to(bgBlend, { backgroundColor: bgColors[i - 1], duration: 0.2, ease: "sine.inOut" });
+      start: "top center",
+      end: "top center",
+      //markers: true,
+      onEnter: () => {
+        // Для первой секции берем текущий цвет, для остальных - из массива
+        const targetColor = i === 0 ? getCssVar('--color-background-top') : bgColors[i];
+        gsap.to(bgBlend, { backgroundColor: targetColor, duration: 0.2, ease: "sine.inOut" });
+      },
+      onLeaveBack: () => {
+        if (i > 0) {
+          // Для возврата к первой секции берем текущий цвет, для остальных - из массива
+          const targetColor = i === 1 ? getCssVar('--color-background-top') : bgColors[i - 1];
+          gsap.to(bgBlend, { backgroundColor: targetColor, duration: 0.2, ease: "sine.inOut" });
         }
       }
     });

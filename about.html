@@ -3,18 +3,17 @@ layout: default
 ---
 
 {% assign fast_link = '
-      rounded-full px-5 py-1 sm:py-2 bg-[#FD589E] text-[#38001B] font-semibold text-sm sm:text-base transition-colors duration-200 hover:bg-[#38001B] hover:text-[#FD589E] text-center
+      rounded-full px-5 py-1 sm:py-2 bg-[var(--color-text-current-page)] text-[var(--color-hover-current-page)] font-semibold text-sm sm:text-base transition-colors duration-200 hover:bg-[var(--color-hover-current-page)] hover:text-[var(--color-text-current-page)] text-center
 ' %}
 
 {% assign tasb_link = '
-  tab-btn rounded-full px-5 py-1 sm:py-2 bg-[#FD589E] text-[#38001B] font-semibold text-sm sm:text-base transition-colors duration-200 hover:bg-[#38001B] hover:text-[#FD589E] text-center
+  tab-btn rounded-full px-5 py-1 sm:py-2 bg-[var(--color-text-current-page)] text-[var(--color-hover-current-page)] font-semibold text-sm sm:text-base transition-colors duration-200 hover:bg-[var(--color-hover-current-page)] hover:text-[var(--color-text-current-page)] text-center
 ' %}
 
 
 <div class="background-blend fixed inset-0 w-screen z-10"></div>
 
 <div class="slide-section relative z-10 bg-transparent" data-bg="var(--color-background-top)">
-
 
   <div class="relative px-4 sm:px-8 md:px-10">
     <div class="flex flex-wrap gap-2 sm:gap-4 mt-28 sm:mt-34 md:mt-40 items-stretch gap-y-2 sm:gap-y-2">
@@ -29,8 +28,8 @@ layout: default
   <div class="flex justify-center items-center mt-[8vh] sm:mt-[16vh]">
     <div id="videoPinWrapper" class="w-full flex justify-center">
       <div id="videoContainer" class="relative w-[85vw] h-[85vw] max-w-full box-border sm:w-[85vw] sm:h-[90vh]">
-        <video id="teamVideo" class="object-cover w-full h-full rounded-3xl" preload="none" playsinline poster="/resources/team/team.jpg">
-          <source src="/resources/team/team.mp4" type="video/mp4">
+        <video id="teamVideo" class="object-cover w-full h-full rounded-3xl" preload="none" playsinline poster="/resources/data/team/team.jpg">
+          <source src="/resources/data/team/team.mp4" type="video/mp4">
           Ваш браузер не поддерживает видео.
         </video>
         <button id="playBtn" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition rounded-2xl"
@@ -49,9 +48,9 @@ layout: default
   <div id="about" class="relative px-8 sm:px-14 md:px-28 flex flex-col flex-1">
     <h1 class="font-medium mt-[8vh] sm:mt-[12vh] max-w-full text-4xl sm:text-5xl md:text-7xl">История бюро</h1>
     <div id="tabs" class="flex mt-4 sm:mt-6 md:mt-8 gap-2 sm:gap-4">
-      <button class="{{ tasb_link }}" data-tab="2025">2025</button>
-      <button class="{{ tasb_link }}" data-tab="2024">2024</button>
-      <button class="{{ tasb_link }}" data-tab="2023">2023</button>
+      <a href="#history-2025" class="{{ tasb_link }}" data-tab="2025">2025</a>
+      <a href="#history-2024" class="{{ tasb_link }}" data-tab="2024">2024</a>
+      <a href="#history-2023" class="{{ tasb_link }}" data-tab="2023">2023</a>
     </div>
 
     <div class="tab-content mt-4 sm:mt-6 md:mt-8 flex-1 flex flex-col">
@@ -66,7 +65,7 @@ layout: default
         <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-8 w-full">
           <div class="w-full sm:w-1/2 flex justify-center items-center relative">
             <div class="w-full aspect-[16/9] flex items-center justify-center rounded-xl overflow-hidden">
-              <img src="/resources/team/history/2025.jpg" alt="2025" class="w-full h-full object-cover" />
+              <img src="/resources/data/team/history/2025.jpg" alt="2025" class="w-full h-full object-cover" />
             </div>
           </div>
           <!-- На мобильных текст под картинкой, на десктопе справа -->
@@ -93,7 +92,7 @@ layout: default
         <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-8 w-full">
           <div class="w-full sm:w-1/2 flex justify-center items-center relative">
             <div class="w-full aspect-[16/9] flex items-center justify-center rounded-xl overflow-hidden">
-              <img src="/resources/team/history/2024.jpg" alt="2024" class="w-full h-full object-cover" />
+              <img src="/resources/data/team/history/2024.jpg" alt="2024" class="w-full h-full object-cover" />
             </div>
           </div>
           <!-- На мобильных текст под картинкой, на десктопе справа -->
@@ -120,7 +119,7 @@ layout: default
         <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-8 w-full">
           <div class="w-full sm:w-1/2 flex justify-center items-center relative">
             <div class="w-full aspect-[16/9] flex items-center justify-center rounded-xl overflow-hidden">
-              <img src="/resources/team/history/2023.jpg" alt="2024" class="w-full h-full object-cover" />
+              <img src="/resources/data/team/history/2023.jpg" alt="2024" class="w-full h-full object-cover" />
             </div>
           </div>
           <!-- На мобильных текст под картинкой, на десктопе справа -->
@@ -182,7 +181,7 @@ layout: default
           <div class="flex flex-col-reverse sm:flex-row items-center justify-center w-full h-full">
             <!-- Картинка на мобильных занимает весь контейнер, текст поверх -->
             <div class="h-full sm:h-full w-full sm:w-[40%] flex-shrink-0 flex items-center justify-center mb-4 sm:mb-0 relative">
-              <img src="/resources/team/people/Mila.png" alt="Team member" class="hidden sm:block h-[70vh] sm:h-full sm:max-h-[70vh] object-contain w-full opacity-80 sm:opacity-100" />
+              <img src="/resources/data/team/people/Mila.png" alt="Team member" class="hidden sm:block h-[70vh] sm:h-full sm:max-h-[70vh] object-contain w-full opacity-80 sm:opacity-100" />
               <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 opacity-100 sm:opacity-100 sm:hidden">
                 <h2 class="text-2xl sm:text-4xl font-bold text-[#003A4D] mb-4 sm:max-w-2xl sm:text-left">
                   “{{ team_quote }}”
@@ -215,7 +214,7 @@ layout: default
           <div class="flex flex-col-reverse sm:flex-row items-center justify-center w-full h-full">
             <!-- Картинка на мобильных занимает весь контейнер, текст поверх -->
             <div class="h-full sm:h-full w-full sm:w-[40%] flex-shrink-0 flex items-center justify-center mb-4 sm:mb-0 relative">
-              <img src="/resources/team/people/Tonya.png" alt="Team member" class="hidden sm:block h-[70vh] sm:h-full sm:max-h-[70vh] object-contain w-full opacity-80 sm:opacity-100" />
+              <img src="/resources/data/team/people/Tonya.png" alt="Team member" class="hidden sm:block h-[70vh] sm:h-full sm:max-h-[70vh] object-contain w-full opacity-80 sm:opacity-100" />
               <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 opacity-100 sm:opacity-100 sm:hidden">
                 <h2 class="text-2xl sm:text-4xl font-bold text-[#003A4D] mb-4 sm:max-w-2xl sm:text-left">
                   “{{ team_quote }}”
@@ -248,7 +247,7 @@ layout: default
           <div class="flex flex-col-reverse sm:flex-row items-center justify-center w-full h-full">
             <!-- Картинка на мобильных занимает весь контейнер, текст поверх -->
             <div class="h-full sm:h-full w-full sm:w-[40%] flex-shrink-0 flex items-center justify-center mb-4 sm:mb-0 relative">
-              <img src="/resources/team/people/Alex.png" alt="Team member" class="hidden sm:block h-[70vh] sm:h-full sm:max-h-[70vh] object-contain w-full opacity-80 sm:opacity-100" />
+              <img src="/resources/data/team/people/Alex.png" alt="Team member" class="hidden sm:block h-[70vh] sm:h-full sm:max-h-[70vh] object-contain w-full opacity-80 sm:opacity-100" />
               <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 opacity-100 sm:opacity-100 sm:hidden">
                 <h2 class="text-2xl sm:text-4xl font-bold text-[#003A4D] mb-4 sm:max-w-2xl sm:text-left">
                   “{{ team_quote }}”
@@ -281,7 +280,7 @@ layout: default
           <div class="flex flex-col-reverse sm:flex-row items-center justify-center w-full h-full">
             <!-- Картинка на мобильных занимает весь контейнер, текст поверх -->
             <div class="h-full sm:h-full w-full sm:w-[40%] flex-shrink-0 flex items-center justify-center mb-4 sm:mb-0 relative">
-              <img src="/resources/team/people/Julia.png" alt="Team member" class="hidden sm:block h-[70vh] sm:h-full sm:max-h-[70vh] object-contain w-full opacity-80 sm:opacity-100" />
+              <img src="/resources/data/team/people/Julia.png" alt="Team member" class="hidden sm:block h-[70vh] sm:h-full sm:max-h-[70vh] object-contain w-full opacity-80 sm:opacity-100" />
               <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 opacity-100 sm:opacity-100 sm:hidden">
                 <h2 class="text-2xl sm:text-4xl font-bold text-[#003A4D] mb-4 sm:max-w-2xl sm:text-left">
                   “{{ team_quote }}”
@@ -314,7 +313,7 @@ layout: default
           <div class="flex flex-col-reverse sm:flex-row items-center justify-center w-full h-full">
             <!-- Картинка на мобильных занимает весь контейнер, текст поверх -->
             <div class="h-full sm:h-full w-full sm:w-[40%] flex-shrink-0 flex items-center justify-center mb-4 sm:mb-0 relative">
-              <img src="/resources/team/people/owner.png" alt="Team member" class="hidden sm:block h-[70vh] sm:h-full sm:max-h-[70vh] object-contain w-full opacity-80 sm:opacity-100" />
+              <img src="/resources/data/team/people/owner.png" alt="Team member" class="hidden sm:block h-[70vh] sm:h-full sm:max-h-[70vh] object-contain w-full opacity-80 sm:opacity-100" />
               <div class="absolute inset-0 flex flex-col justify-center items-center text-center px-4 opacity-100 sm:opacity-100 sm:hidden">
                 <h2 class="text-2xl sm:text-4xl font-bold text-[#003A4D] mb-4 sm:max-w-2xl sm:text-left">
                   “{{ team_quote }}”
@@ -373,7 +372,7 @@ layout: default
           
           <!-- Картинка только для десктопа -->
           <div class="hidden sm:block flex-shrink-0 ml-14">
-            <img src="/resources/team/poster.png" alt="Team" class="w-80 md:w-96 lg:w-[28rem] xl:w-[32rem] h-auto object-contain" />
+            <img src="/resources/data/team/poster.png" alt="Team" class="w-80 md:w-96 lg:w-[28rem] xl:w-[32rem] h-auto object-contain" />
           </div>
         </a>
       </div>
@@ -415,7 +414,7 @@ layout: default
 
 <script src="/resources/js/tilt.js"></script>
 <script src="/resources/js/smooth-scroll.js"></script>
-<script src="/resources/js/about/main.js"></script>
+<script src="/resources/js/about/main-background.js"></script>
 <script src="/resources/js/about/tabs.js"></script>
 <script src="/resources/js/about/play.js"></script>
 <script src="/resources/js/about/words.js"></script>
