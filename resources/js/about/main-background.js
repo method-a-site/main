@@ -45,10 +45,14 @@
   cards.forEach((card, index) => {
     gsap.set(card, { zIndex: index });
 
+    // Определяем стартовую позицию в зависимости от размера экрана
+    const isMobile = window.innerWidth < 640; // sm breakpoint
+    const startPosition = isMobile ? "top top+=25px" : "center center-=25px";
+
     gsap.timeline({
       scrollTrigger: {
         trigger: card,
-        start: "center center",
+        start: startPosition,
         endTrigger: cards[4],
         end: "bottom center",
         pin: true,
