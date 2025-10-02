@@ -8,10 +8,28 @@
         <a href="https://t.me/{{ site.telegram_dm }}" class="group flex flex-row items-center justify-between w-full pointer-events-auto transition-colors duration-200 no-underline hover:text-[#FD589E]" style="text-decoration:none;">
           <div class="flex flex-row items-center justify-between max-w-3xl">
             <div>
-              <span class="text-3xl sm:text-5xl md:text-7xl font-medium text-left">Сделаем вместе</span>
+              <span class="text-3xl sm:text-5xl md:text-7xl font-medium text-left">
+                    {% if page.url == "/about" or page.url == "/about.html" %}
+                      Сделаем вместе
+                    {% else %}
+                      Расскажите нам
+                    {% endif %}
+              </span>
               <div class="mt-2 flex flex-row items-center gap-2 sm:gap-6">
-                <span class="text-3xl sm:text-5xl md:text-7xl font-medium text-left">что-то</span>
-                <span id="word-animate" class="text-3xl sm:text-5xl md:text-7xl font-medium text-left">новое</span>
+                <span class="text-3xl sm:text-5xl md:text-7xl font-medium text-left">
+                    {% if page.url == "/about" or page.url == "/about.html" %}
+                      что-то
+                    {% else %}
+                      свою
+                    {% endif %}
+                </span>
+                <span id="word-animate" class="text-3xl sm:text-5xl md:text-7xl font-medium text-left">
+                    {% if page.url == "/about" or page.url == "/about.html" %}
+                      крутое
+                    {% else %}
+                      идею
+                    {% endif %}
+                </span>
               </div>
             </div>
             <div class="bg-transparent p-0 outline-none cursor-pointer w-8 h-8 sm:w-16 sm:h-16 flex items-center justify-center ml-4">

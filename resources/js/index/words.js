@@ -1,8 +1,8 @@
 const words = [
-  "задумку",
-  "сложность",
-  "инициативу",
-  "задачу",
+  "цель",
+  "мечту",
+  "идею",
+  "задачу"
 ];
 
 const el = document.getElementById("word-animate");

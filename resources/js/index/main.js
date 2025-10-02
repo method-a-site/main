@@ -101,31 +101,17 @@ function initExpandingAndTitles() {
     //markers: true,
     onUpdate: self => {
       const progress = self.progress;
-      const fixed = self.isActive;
-      document.getElementById('siteNameBar')?.classList.toggle('fixed', fixed);
-      document.getElementById('siteIconBar')?.classList.toggle('fixed', fixed);
       
-      // Заголовок уезжает вверх и исчезает
-      gsap.to("#mainTitle", {
-        opacity: progress < 0.1 ? 1 : 0,
-        duration: 0.2,
-        ease: "power1.out"
+      // Анимации элементов на основе прогресса скролла
+      gsap.set("#mainTitle", { opacity: progress < 0.1 ? 1 : 0 });
+      gsap.set(["#leftWork", "#rightWord"], {
+        x: i => (i === 0 ? -1 : 1) * window.innerWidth / 2 * progress,
+        opacity: 1 - Math.max(0, (progress - 0.7) / 0.3)
       });
-      // "Наши работы" и "вместо слов" разъезжаются по горизонтали и исчезают
-      gsap.to(["#leftWork", "#rightWord"], {
-        x: i => i === 0 ? -window.innerWidth / 2 * progress : window.innerWidth / 2 * progress,
-        y: 0,
-        opacity: 1 - Math.max(0, (progress - 0.7) / 0.3),
-        duration: 0.2,
-        ease: "power1.out"
-      });
-      // Expanding container появляется и увеличивается
-      gsap.to("#expandingContainer", {
+      gsap.set("#expandingContainer", {
         scale: progress < 0.5 ? 0.2 + 1.6 * progress : 1,
         opacity: progress < 0.5 ? progress * 2 : 1,
-        borderRadius: progress < 0.5 ? "2rem" : "0rem",
-        duration: 0.2,
-        ease: "power1.out"
+        borderRadius: progress < 0.5 ? "2rem" : "0rem"
       });
 
       // Меняем цвет фона в конце анимации
@@ -137,6 +123,14 @@ function initExpandingAndTitles() {
       if (bgBlend) {
         bgBlend.style.backgroundColor = targetColor;
       }
+
+      // Плавно анимируем название сайта и значок
+      gsap.to(['#siteNameBar', '#siteIconBar'], {
+        y: progress >= 1 ? -100 : 0,
+        opacity: progress >= 1 ? 0 : 1,
+        duration: 0.2,
+        ease: "power1.out"
+      });
 
       // Эффект вылета карточек на зрителя (как в index.html)
       const cardsContainer = document.getElementById('cardsContainer');
@@ -187,13 +181,17 @@ function initExpandingAndTitles() {
 }
 document.addEventListener('DOMContentLoaded', () => {
   // Компенсируем pin-пространство для expandingContainer
-  const firstSection = document.querySelector('.slide-section[data-bg]');
+  const firstSection = document.querySelector('.slide-section[data-bg]');  
   if (firstSection) {
-    const extraSpace = window.innerHeight * 2.5; // соответствует 200vh из end параметра
+    const extraSpace = window.innerHeight * 1.7; // соответствует 500vh из end параметра
     firstSection.style.marginBottom = extraSpace + 'px';
   }
   
   window.cardsAppearanceStartTime = Date.now();
+  
+  // Изначально фиксируем название сайта и значок
+  gsap.set(['#siteNameBar', '#siteIconBar'], { position: 'fixed', y: 0, opacity: 1 });
+  
   calculateCarouselCardSizes();
   positionCardsRandomly();
   if (typeof addCardMagnetEffect === 'function') {
@@ -304,10 +302,4 @@ function positionCardsRandomly() {
     positions.push(point);
   });
 }
-document.addEventListener('DOMContentLoaded', () => {
-  window.cardsAppearanceStartTime = Date.now();
-  positionCardsRandomly();
-  if (typeof addCardMagnetEffect === 'function') {
-    addCardMagnetEffect();
-  }
-});
+

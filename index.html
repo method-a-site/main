@@ -92,17 +92,37 @@ layout: default
       </div>
     </footer>
   </div>
-
   </div>
+</div>
 
+<div class="slide-section h-screen relative z-10 bg-transparent" data-bg="var(--color-background-top-2)">
+    <div class="flex justify-center items-center mt-[2vh] sm:mt-[4vh]">
+    <div id="videoPinWrapper" class="w-full flex justify-center">
+      <div id="videoContainer" class="relative w-[85vw] h-[85vw] max-w-full box-border sm:w-[85vw] sm:h-[90vh]">
+        <video id="teamVideo" class="object-cover w-full h-full rounded-3xl" preload="none" playsinline poster="/resources/data/team/team.jpg">
+          <source src="/resources/data/team/team.mp4" type="video/mp4">
+          Ваш браузер не поддерживает видео.
+        </video>
+        <button id="playBtn" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition rounded-2xl"
+          style="border:none;outline:none;">
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+            <circle cx="40" cy="40" r="40" fill="#FD589E" fill-opacity="0.95"/>
+            <polygon points="32,25 60,40 32,55" fill="#38001B"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="videoPlaceholder" style="width:0;height:0;"></div>
+  </div>
+  
 </div>
 
 <div class="slide-section h-screen relative z-10 bg-transparent" data-bg="var(--color-background-middle)">
-  <div style="height:150vh"></div>
+    <div style="height:200vh"></div>
 </div>
 
 <div class="slide-section h-screen relative z-10 bg-transparent" data-bg="var(--color-background-bottom)">
-    <div style="height:150vh"></div>
+    <div style="height:200vh"></div>
 </div>
 
 <div style="height:130vh"></div>
@@ -114,3 +134,5 @@ layout: default
 <script src="/resources/js/smooth-scroll.js"></script>
 <script src="/resources/js/index/main.js"></script>
 <script src="/resources/js/index/words.js"></script>
+<script src="/resources/js/index/play.js"></script>
+

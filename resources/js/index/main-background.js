@@ -7,6 +7,7 @@
 
   const bgColors = [
     getCssVar('--color-background-top'),
+    getCssVar('--color-background-top-2'),
     getCssVar('--color-background-middle'),
     getCssVar('--color-background-bottom')
   ];
@@ -36,12 +37,12 @@
     });
   });
 
-  // scrub-animation background-blend - появляется при скролле третьей секции
+  // scrub-animation background-blend - появляется при скролле 4 секции
   const scaleVal = 0.95;
   const yBlendVal = "-70vh";
   const ySlideVal = ((1 - scaleVal) * 50) + "vh";
   const slideSections = document.querySelectorAll('.slide-section');
-  const thirdSlide = slideSections[2]; // Третья секция (индекс 2)
+  const thirdSlide = slideSections[3]; // 4 секция (индекс 3)
 
   const tl = gsap.timeline({
     scrollTrigger: {
