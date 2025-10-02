@@ -157,15 +157,16 @@ layout: default
       <a href="/" class="hover:underline text-[#003A4D]">Пользовательское соглашение</a><br>
       Все права защищены © <span id="copyright-year"></span>
     </div>
-    <!-- Mobile footer -->
-    <div class="absolute inset-x-0 bottom-10 flex flex-col items-center justify-center text-xs text-[#003A4D] py-4 sm:hidden">
-      <div class="mb-2 text-center">
+    <!-- Mobile footer - фиксированная высота внизу -->
+    <div class="flex-shrink-0 flex flex-col items-center justify-center text-xs text-[#003A4D] sm:hidden pb-14">
+      <div class="text-center">
         ИП Меркоева А.И.<br>
         ИНН 463312689824<br>
         ОГРН 323460000022305<br>
-        <a href="/" class="hover:underline text-[#003A4D]">Пользовательское соглашение</a><br>
+        <a href="/" class="hover:underline text-[#003A4D] hidden sm:inline">Пользовательское соглашение</a><br>
       </div>
     </div>
+    
 </div>
 
 
