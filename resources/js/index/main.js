@@ -4,8 +4,6 @@ let isResizing = false;
 // Настройка длины анимации в единицах высоты экрана
 const ANIMATION_LENGTH_VH = 2; // 2 высоты экрана - легко изменить здесь
 
-
-
 function calculateCarouselCardSizes() {
   const container = document.getElementById('carouselContainer');
   const cards = document.querySelectorAll('.carousel-card');
@@ -135,7 +133,7 @@ function initExpandingAndTitles() {
         bgBlend.style.backgroundColor = targetColor;
       }
 
-      // Плавно анимируем название сайта и значок
+      // Плавно анимируем название
       gsap.to(['#siteNameBar', '#siteIconBar'], {
         y: progress >= 1 ? -100 : 0,
         opacity: progress >= 1 ? 0 : 1,
@@ -143,7 +141,7 @@ function initExpandingAndTitles() {
         ease: "power1.out"
       });
 
-      // Эффект вылета карточек на зрителя (как в index.html)
+      // Эффект вылета карточек на зрителя
       const cardsContainer = document.getElementById('cardsContainer');
       if (cardsContainer) cardsContainer.style.cssText = 'perspective: 1000px; perspective-origin: center center';
       
@@ -157,35 +155,18 @@ function initExpandingAndTitles() {
         
         card.classList.toggle('flying-card', isFlying);
         
-        // Простое скрытие карточек на высоком progress
-        if (progress > 0.8) {
-          gsap.set(card, { 
-            opacity: 0, 
-            scale: 1, 
-            rotationX: 0, 
-            rotationY: 0, 
-            rotationZ: 0, 
-            z: 0,
-            transformStyle: 'preserve-3d', 
-            force3D: true 
-          });
-          card.style.pointerEvents = 'none';
-        } else {
-          gsap.set(card, isFlying ? {
-            scale: 1 + cardProgress * 0.15,
-            rotationX: Math.sin(cardProgress * Math.PI) * 5,
-            rotationY: Math.cos(cardProgress * Math.PI) * 3,
-            rotationZ: Math.sin(cardProgress * Math.PI * 2) * 10,
-            z: cardProgress * 500,
-            opacity: Math.max(0.1, 1 - cardProgress * 0.8),
-            transformStyle: 'preserve-3d',
-            force3D: true
-          } : {
-            scale: 1, rotationX: 0, rotationY: 0, rotationZ: 0, z: 0, opacity: 1,
-            transformStyle: 'preserve-3d', force3D: true
-          });
-          card.style.pointerEvents = 'auto';
-        }
+        // Анимация карточек в одном gsap.set
+        gsap.set(card, {
+          opacity: progress > 0.8 ? 0 : (isFlying ? Math.max(0.1, 1 - cardProgress * 0.8) : 1),
+          scale: progress > 0.8 ? 1 : (isFlying ? 1 + cardProgress * 0.15 : 1),
+          rotationX: progress > 0.8 ? 0 : (isFlying ? Math.sin(cardProgress * Math.PI) * 5 : 0),
+          rotationY: progress > 0.8 ? 0 : (isFlying ? Math.cos(cardProgress * Math.PI) * 3 : 0),
+          rotationZ: progress > 0.8 ? 0 : (isFlying ? Math.sin(cardProgress * Math.PI * 2) * 10 : 0),
+          z: progress > 0.8 ? 0 : (isFlying ? cardProgress * 500 : 0),
+          transformStyle: 'preserve-3d',
+          force3D: true
+        });
+        card.style.pointerEvents = progress > 0.8 ? 'none' : 'auto';
       });
     }
   });
@@ -226,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 100);
   
   initExpandingAndTitles();
-  initMainContainerZIndexControl();
 });
 
 let resizeTimeout;
