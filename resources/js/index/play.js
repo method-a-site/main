@@ -94,34 +94,51 @@ if (isMobile()) {
   });
 }
 
-(function() {
-  var pinWrapper = document.getElementById('videoPinWrapper');
-  if (pinWrapper && !isMobile()) {
-    var extraSpace = window.innerHeight * 0.5;
-    pinWrapper.style.marginBottom = extraSpace + 'px';
+// Константа для длины пинирования видео
+const VIDEO_PIN_LENGTH_VH = 0.5; // 0.5 высоты экрана
+
+// Компенсируем пространство для video pin с pinSpacing: false (только для десктопа)
+function initVideoSpaceCompensation() {
+  const videoScrollSpace = document.getElementById('videoScrollSpace');
+  if (videoScrollSpace) {
+    if (!isMobile()) {
+      const spaceHeight = window.innerHeight * VIDEO_PIN_LENGTH_VH;
+      videoScrollSpace.style.height = spaceHeight + 'px';
+    } else {
+      // На мобильных убираем компенсацию
+      videoScrollSpace.style.height = '0px';
+    }
   }
-})();
+}
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Инициализируем компенсацию при загрузке
+document.addEventListener('DOMContentLoaded', initVideoSpaceCompensation);
+
+// Пересчитываем компенсацию при изменении размера окна
+window.addEventListener('resize', () => {
+  initVideoSpaceCompensation(); // Функция сама проверит isMobile()
+});
 
 if (!isMobile()) {
   ScrollTrigger.create({
     trigger: "#videoPinWrapper",
     start: "center center",
-    end: "bottom center",
+    end: `+=${window.innerHeight * VIDEO_PIN_LENGTH_VH}px`, // Используем ту же константу
     pin: true,
     pinSpacing: false,
-    markers: true,
+    //markers: true,
     scrub: false
   });
 
   gsap.to("#videoContainer", {
     scrollTrigger: {
       trigger: "#videoPinWrapper",
-      start: "top center",
-      end: "bottom center",
+      start: "center center",
+      end: `+=${window.innerHeight * VIDEO_PIN_LENGTH_VH}px`, // Синхронизируем с пинированием
       scrub: 0.5,
-      markers: true
+      //markers: true
     },
     width: "95vw",
     maxWidth: "95vw",

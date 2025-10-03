@@ -6,7 +6,6 @@
   }
 
   const bgColors = [
-    getCssVar('--color-background-top'),
     getCssVar('--color-background-top-2'),
     getCssVar('--color-background-middle'),
     getCssVar('--color-background-bottom')
@@ -19,20 +18,20 @@
   document.querySelectorAll('.slide-section').forEach((section, i) => {
     ScrollTrigger.create({
       trigger: section,
-      start: "top center",
-      end: "top center",
-      //markers: true,
+      start: "top-=200px top",
+      end: "top-=200px top",
+      markers: true,
       onEnter: () => {
-        // Для первой секции берем текущий цвет, для остальных - из массива
-        const targetColor = i === 0 ? getCssVar('--color-background-top') : bgColors[i];
-        gsap.to(bgBlend, { backgroundColor: targetColor, duration: 0.2, ease: "sine.inOut" });
+      // Для первой секции берем текущий цвет, для остальных - из массива
+      const targetColor = i === 0 ? getCssVar('--color-background-top-2') : bgColors[i];
+      gsap.to(bgBlend, { backgroundColor: targetColor, duration: 0.2, ease: "sine.inOut" });
       },
       onLeaveBack: () => {
-        if (i > 0) {
-          // Для возврата к первой секции берем текущий цвет, для остальных - из массива
-          const targetColor = i === 1 ? getCssVar('--color-background-top') : bgColors[i - 1];
-          gsap.to(bgBlend, { backgroundColor: targetColor, duration: 0.2, ease: "sine.inOut" });
-        }
+      if (i > 0) {
+        // Для возврата к первой секции берем текущий цвет, для остальных - из массива
+        const targetColor = i === 1 ? getCssVar('--color-background-top-2') : bgColors[i - 1];
+        gsap.to(bgBlend, { backgroundColor: targetColor, duration: 0.2, ease: "sine.inOut" });
+      }
       }
     });
   });
@@ -42,7 +41,7 @@
   const yBlendVal = "-70vh";
   const ySlideVal = ((1 - scaleVal) * 50) + "vh";
   const slideSections = document.querySelectorAll('.slide-section');
-  const thirdSlide = slideSections[3]; // 4 секция (индекс 3)
+  const thirdSlide = slideSections[2]; // 3 секция (индекс 2)
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -52,7 +51,7 @@
       scrub: true,
       //markers: true,
       onUpdate: self => {
-        if (self.progress > 0.3) {
+        if (self.progress > 0.2) {
           bgBottom.style.pointerEvents = 'auto';
           slideSections.forEach(sec => sec.style.pointerEvents = 'none');
         } else {

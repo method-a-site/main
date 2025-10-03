@@ -2,10 +2,7 @@
 layout: default
 ---
 
-<div class="background-blend fixed inset-0 w-screen z-10"></div>
-
-<div class="slide-section h-screen relative z-10 bg-transparent" data-bg="var(--color-background-top)">
-    
+<div class="main-container z-10">
   <div class="flex flex-col items-center justify-center min-h-screen w-full max-w-xs sm:max-w-7xl mx-auto relative">
     <div id="mainHeaderSection" class="flex flex-col items-center justify-center w-full mb-4 sm:mb-8 px-4">
       <h1 id="mainTitle" class="text-3xl sm:text-7xl font-semibold text-center text-gray-600 mb-1 sm:mb-2 w-full leading-tight">
@@ -26,7 +23,7 @@ layout: default
     <div id="cardsContainer" class="absolute inset-0 w-full h-full">
       {% for post in site.posts %}
         <a href="{{ post.url }}" class="card-link absolute transition-[transform,filter] duration-300 ease-out min-w-[44px] min-h-[44px]" style="text-decoration: none; color: inherit; transform-style: preserve-3d;">
-          <div class="card flex flex-col items-center justify-center w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] p-1.5 sm:p-2 bg-white rounded-xl sm:rounded-2xl text-center relative border-2 sm:border-3 transition-transform duration-200 ease-out" style="border-color: var(--color-card-border); transform-style: preserve-3d;">
+          <div class="card flex flex-col items-center justify-center w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] p-1.5 sm:p-2 bg-white rounded-xl sm:rounded-2xl text-center relative border-2 sm:border-3 transition-transform duration-200 ease-out" style="border-color: var(--color-background-top); transform-style: preserve-3d;">
         <img src="/resources/data/case_icons/{{ post.tags }}.png" class="featured-image-post w-6 h-6 sm:w-10 sm:h-10 mb-1 sm:mb-2 object-contain relative z-10 transition-transform duration-300 ease-out"/>
         <span class="text-[0.7rem] sm:text-[0.95rem] font-medium relative z-10 block leading-tight sm:leading-none overflow-hidden text-ellipsis whitespace-nowrap max-w-full">{{ post.title }}</span>
           </div>
@@ -35,7 +32,7 @@ layout: default
     </div>
   </div>
 
-  <div id="expandingContainer" class="fixed left-0 top-0 w-screen h-screen bg-[#e0e0d1] rounded-[2rem] z-[1] opacity-0 scale-[0.2] transition-[border-radius] duration-200 flex flex-col">
+  <div id="expandingContainer" class="fixed left-0 top-0 w-screen h-screen rounded-[2rem] z-[1] opacity-0 scale-[0.2] transition-[border-radius] duration-200 flex flex-col" style="background-color: var(--color-background-top-2);">
     
     <!-- Main content area -->
     <main class="flex-1 flex items-center justify-center h-full w-full">
@@ -92,11 +89,19 @@ layout: default
       </div>
     </footer>
   </div>
-  </div>
 </div>
 
-<div class="slide-section h-screen relative z-10 bg-transparent" data-bg="var(--color-background-top-2)">
-    <div class="flex justify-center items-center mt-[2vh] sm:mt-[4vh]">
+<!-- Компенсация пространства для ScrollTrigger -->
+<div id="scrollSpace" class="w-full"></div>
+
+<!-- Секция с фоном и слайдами -->
+<div class="relative w-full">   
+
+  <div class="background-blend absolute top-0 left-0 w-full h-full z-10"></div>
+
+  
+  <div class="slide-section relative z-20 bg-transparent" data-bg="var(--color-background-top-2)">
+        <div class="flex justify-center items-center mt-0 sm:mt-14">
     <div id="videoPinWrapper" class="w-full flex justify-center">
       <div id="videoContainer" class="relative w-[85vw] h-[85vw] max-w-full box-border sm:w-[85vw] sm:h-[90vh]">
         <video id="teamVideo" class="object-cover w-full h-full rounded-3xl" preload="none" playsinline poster="/resources/data/team/team.jpg">
@@ -114,18 +119,53 @@ layout: default
     </div>
     <div id="videoPlaceholder" style="width:0;height:0;"></div>
   </div>
-  
-</div>
+  </div>
 
-<div class="slide-section h-screen relative z-10 bg-transparent" data-bg="var(--color-background-middle)">
-    <div style="height:200vh"></div>
-</div>
+  <!-- Компенсация пространства для video pin (только для десктопа) -->
+  <div id="videoScrollSpace" class="w-full hidden sm:block"></div>
 
-<div class="slide-section h-screen relative z-10 bg-transparent" data-bg="var(--color-background-bottom)">
-    <div style="height:200vh"></div>
-</div>
+  <div class="slide-section h-screen relative z-20 bg-transparent" data-bg="var(--color-background-middle)">
+      <div class="flex flex-col items-center justify-center h-full w-full px-4 py-8 sm:px-12">
+        <h2 class="text-2xl sm:text-4xl font-semibold text-center mb-6 text-gray-700">Наши направления</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-5xl h-full">
+          <div class="bg-white rounded-2xl p-5 flex flex-col items-center text-center transition h-full">
+        <h3 class="text-lg font-medium mb-2">Образование</h3>
+        <p class="text-gray-500 text-sm">Современные методики обучения для школьников и студентов.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-5 flex flex-col items-center text-center transition h-full">
+        <h3 class="text-lg font-medium mb-2">Консалтинг</h3>
+        <p class="text-gray-500 text-sm">Помощь в выборе образовательной траектории и карьерном развитии.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-5 flex flex-col items-center text-center transition h-full">
+        <h3 class="text-lg font-medium mb-2">IT-решения</h3>
+        <p class="text-gray-500 text-sm">Интерактивные платформы и цифровые инструменты для обучения.</p>
+          </div>
+        </div>
+      </div>
+  </div>
 
-<div style="height:130vh"></div>
+  <div class="slide-section h-screen relative z-20 bg-transparent" data-bg="var(--color-background-bottom)">
+      <div class="flex flex-col items-center justify-center h-full w-full px-4 py-8 sm:px-12">
+        <h2 class="text-2xl sm:text-4xl font-semibold text-center mb-6 text-gray-700">Наши направления</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-5xl h-full">
+          <div class="bg-white rounded-2xl p-5 flex flex-col items-center text-center transition h-full">
+        <h3 class="text-lg font-medium mb-2">Образование</h3>
+        <p class="text-gray-500 text-sm">Современные методики обучения для школьников и студентов.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-5 flex flex-col items-center text-center transition h-full">
+        <h3 class="text-lg font-medium mb-2">Консалтинг</h3>
+        <p class="text-gray-500 text-sm">Помощь в выборе образовательной траектории и карьерном развитии.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-5 flex flex-col items-center text-center transition h-full">
+        <h3 class="text-lg font-medium mb-2">IT-решения</h3>
+        <p class="text-gray-500 text-sm">Интерактивные платформы и цифровые инструменты для обучения.</p>
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <div style="height:80vh"></div>
+</div>
 
 {% include footer.html %}
 

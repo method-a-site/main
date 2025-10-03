@@ -1,6 +1,11 @@
 let carouselAnimation = null;
 let isResizing = false;
 
+// Настройка длины анимации в единицах высоты экрана
+const ANIMATION_LENGTH_VH = 2; // 3 высоты экрана - легко изменить здесь
+
+
+
 function calculateCarouselCardSizes() {
   const container = document.getElementById('carouselContainer');
   const cards = document.querySelectorAll('.carousel-card');
@@ -91,27 +96,33 @@ function loopCarousel() {
 
 function initExpandingAndTitles() {
   gsap.registerPlugin(ScrollTrigger);
+  
   ScrollTrigger.create({
-    trigger: ".slide-section[data-bg]",
+    trigger: ".main-container",
     start: "top top",
-    end: "bottom+=500vh top",
+    end: `+=${window.innerHeight * ANIMATION_LENGTH_VH}px`, // Используем пиксели вместо vh
     pin: true,
     pinSpacing: false,
     scrub: true,
-    //markers: true,
+    markers: true,
     onUpdate: self => {
       const progress = self.progress;
+      const mainContainer = document.querySelector('.main-container');
+      
+      // Убираем z-index у main-container после завершения анимации expanding
+      if (progress >= 1 && mainContainer) {
+        mainContainer.style.zIndex = '0';
+      }
       
       // Анимации элементов на основе прогресса скролла
-      gsap.set("#mainTitle", { opacity: progress < 0.1 ? 1 : 0 });
       gsap.set(["#leftWork", "#rightWord"], {
         x: i => (i === 0 ? -1 : 1) * window.innerWidth / 2 * progress,
         opacity: 1 - Math.max(0, (progress - 0.7) / 0.3)
       });
       gsap.set("#expandingContainer", {
-        scale: progress < 0.5 ? 0.2 + 1.6 * progress : 1,
-        opacity: progress < 0.5 ? progress * 2 : 1,
-        borderRadius: progress < 0.5 ? "2rem" : "0rem"
+        scale: progress < 0.3 ? 0.2 + 2.67 * progress : 1,
+        opacity: progress < 0.3 ? progress * 3.33 : 1,
+        borderRadius: progress < 0.3 ? `${2 - (progress * 6.67)}rem` : "0rem"
       });
 
       // Меняем цвет фона в конце анимации
@@ -180,11 +191,11 @@ function initExpandingAndTitles() {
   });
 }
 document.addEventListener('DOMContentLoaded', () => {
-  // Компенсируем pin-пространство для expandingContainer
-  const firstSection = document.querySelector('.slide-section[data-bg]');  
-  if (firstSection) {
-    const extraSpace = window.innerHeight * 1.7; // соответствует 500vh из end параметра
-    firstSection.style.marginBottom = extraSpace + 'px';
+  // Компенсируем пространство для ScrollTrigger с pinSpacing: false
+  const scrollSpace = document.getElementById('scrollSpace');
+  if (scrollSpace) {
+    const spaceHeight = window.innerHeight * ANIMATION_LENGTH_VH;
+    scrollSpace.style.height = spaceHeight + 'px';
   }
   
   window.cardsAppearanceStartTime = Date.now();
@@ -215,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 100);
   
   initExpandingAndTitles();
+  initMainContainerZIndexControl();
 });
 
 let resizeTimeout;
