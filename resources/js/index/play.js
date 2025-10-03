@@ -95,7 +95,7 @@ if (isMobile()) {
 }
 
 // Константа для длины пинирования видео
-const VIDEO_PIN_LENGTH_VH = 0.5; // 0.5 высоты экрана
+const VIDEO_PIN_LENGTH_VH = 1; // 1 высота экрана
 
 // Компенсируем пространство для video pin с pinSpacing: false (только для десктопа)
 function initVideoSpaceCompensation() {

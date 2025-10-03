@@ -2,7 +2,7 @@ let carouselAnimation = null;
 let isResizing = false;
 
 // Настройка длины анимации в единицах высоты экрана
-const ANIMATION_LENGTH_VH = 2; // 3 высоты экрана - легко изменить здесь
+const ANIMATION_LENGTH_VH = 2; // 2 высоты экрана - легко изменить здесь
 
 
 
@@ -104,7 +104,7 @@ function initExpandingAndTitles() {
     pin: true,
     pinSpacing: false,
     scrub: true,
-    markers: true,
+    //markers: true,
     onUpdate: self => {
       const progress = self.progress;
       const mainContainer = document.querySelector('.main-container');

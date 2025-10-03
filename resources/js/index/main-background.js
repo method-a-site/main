@@ -20,7 +20,7 @@
       trigger: section,
       start: "top-=200px top",
       end: "top-=200px top",
-      markers: true,
+      //markers: true,
       onEnter: () => {
       // Для первой секции берем текущий цвет, для остальных - из массива
       const targetColor = i === 0 ? getCssVar('--color-background-top-2') : bgColors[i];
