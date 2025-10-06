@@ -22,6 +22,14 @@ body {
   overflow-x: hidden;
 }
 
+.main-container {
+  overflow-x: hidden;
+}
+
+#mainHeaderSection {
+  overflow-x: hidden;
+}
+
 .card-link {
   opacity: 0;
 }

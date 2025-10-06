@@ -5,7 +5,20 @@ layout: default
 <div class="main-container z-10">
   <div class="flex flex-col items-center justify-center min-h-screen w-full max-w-xs sm:max-w-7xl mx-auto relative">
     <div id="mainHeaderSection" class="flex flex-col items-center justify-center w-full mb-4 sm:mb-8 px-4">
-
+      <h1 id="mainTitle" class="text-3xl sm:text-7xl font-semibold text-center mb-1 sm:mb-2 w-full leading-tight">
+        <span class="sm:hidden">Бюро Метод — А</span>
+        <span class="hidden sm:inline">Образовательное бюро Метод — А</span>
+      </h1>
+      <div id="workWordsRow" class="flex flex-row w-full gap-1 sm:gap-4 justify-center">
+      <h2 id="leftWork" class="text-3xl sm:text-7xl font-semibold text-center leading-tight">
+        <span class="sm:hidden">Наши</span>
+        <span class="hidden sm:inline">Наши работы</span>
+      </h2>
+      <h2 id="rightWord" class="text-3xl sm:text-7xl font-semibold text-center leading-tight">
+        <span class="sm:hidden">работы</span>
+        <span class="hidden sm:inline">вместо слов</span>
+      </h2>
+      </div>
     </div>
     <div id="cardsContainer" class="absolute inset-0 w-full h-full">
       {% for post in site.posts %}
