@@ -114,7 +114,15 @@ function initExpandingAndTitles() {
       
       // Анимации элементов на основе прогресса скролла
       const isMobile = window.innerWidth < 640;
-      const maxOffset = isMobile ? window.innerWidth * 0.4 : window.innerWidth / 2;
+      // Для мобильных устройств используем меньшее смещение
+      const maxOffset = isMobile ? Math.min(150, window.innerWidth * 0.35) : window.innerWidth / 2;
+      
+      // Устанавливаем overflow: hidden для родительского контейнера
+      const workWordsRow = document.getElementById('workWordsRow');
+      if (workWordsRow && progress > 0) {
+        workWordsRow.style.overflow = 'hidden';
+      }
+      
       gsap.set(["#leftWork", "#rightWord"], {
         x: i => (i === 0 ? -1 : 1) * maxOffset * progress,
         opacity: 1 - Math.max(0, (progress - 0.7) / 0.3)

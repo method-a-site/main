@@ -30,6 +30,15 @@ body {
   overflow-x: hidden;
 }
 
+#workWordsRow {
+  overflow-x: hidden;
+  position: relative;
+}
+
+#leftWork, #rightWord {
+  flex-shrink: 0;
+}
+
 .card-link {
   opacity: 0;
 }
