@@ -22,6 +22,10 @@ body {
   overflow-x: hidden;
 }
 
+.card-link {
+  opacity: 0;
+}
+
 .main-container {
   overflow-x: hidden;
 }
@@ -29,20 +33,6 @@ body {
 #mainHeaderSection {
   overflow-x: hidden;
 }
-
-#workWordsRow {
-  overflow-x: hidden;
-  position: relative;
-}
-
-#leftWork, #rightWord {
-  flex-shrink: 0;
-}
-
-.card-link {
-  opacity: 0;
-}
-
 
 @media (min-width: 640px) {
   .video-center-row {
