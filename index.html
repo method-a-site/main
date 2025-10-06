@@ -4,7 +4,9 @@ layout: default
 
 <div class="main-container z-10">
   <div class="flex flex-col items-center justify-center min-h-screen w-full max-w-xs sm:max-w-7xl mx-auto relative">
+    <div id="mainHeaderSection" class="flex flex-col items-center justify-center w-full mb-4 sm:mb-8 px-4">
 
+    </div>
     <div id="cardsContainer" class="absolute inset-0 w-full h-full">
       {% for post in site.posts %}
         <a href="{{ post.url }}" class="card-link absolute transition-[transform,filter] duration-300 ease-out min-w-[44px] min-h-[44px]" style="text-decoration: none; color: inherit; transform-style: preserve-3d;">
