@@ -26,21 +26,21 @@
       <!-- vCard карточка -->
       <a href="tel:+{{ site.phone }}" target="_blank" rel="noopener noreferrer">
         <div id="modalCard" class="rounded-3xl p-6 w-72 flex flex-col items-center transition-all duration-200 hover:scale-105 border-2 border-gray-950" style="width: 220px;">
-          <img src="/resources/data/qr/vcard.png" alt="QR Code" class="w-full h-auto rounded-lg mb-4" />
+          <img src="{{ site.data_url }}/data/qr/vcard.png" alt="QR Code" class="w-full h-auto rounded-lg mb-4" />
           <div class="text-lg font-semibold text-gray-950">vCard</div>
         </div>
       </a>
       <!-- WhatsApp карточка -->
       <a href="https://wa.me/{{ site.whatsapp }}" target="_blank" rel="noopener noreferrer">
         <div id="whatsappCard" class="rounded-3xl p-6 w-72 flex flex-col items-center transition-all duration-200 hover:scale-105" style="background: var(--color-messenger1); width: 220px;">
-          <img src="/resources/data/qr/whatsapp.png" alt="WhatsApp QR" class="w-full h-auto rounded-lg mb-4 hidden md:block" />
+          <img src="{{ site.data_url }}/data/qr/whatsapp.png" alt="WhatsApp QR" class="w-full h-auto rounded-lg mb-4 hidden md:block" />
           <div class="text-lg font-semibold text-gray-950">WhatsApp</div>
         </div>
       </a>
       <!-- Telegram карточка -->
       <a href="https://t.me/{{ site.telegram }}" target="_blank" rel="noopener noreferrer">
         <div id="telegramCard" class="rounded-3xl p-6 w-72 flex flex-col items-center transition-all duration-200 hover:scale-105" style="background: var(--color-messenger2); width: 220px;">
-          <img src="/resources/data/qr/telegram_channel.png" alt="Telegram QR" class="w-full h-auto rounded-lg mb-4 hidden md:block" />
+          <img src="{{ site.data_url }}/data/qr/telegram_channel.png" alt="Telegram QR" class="w-full h-auto rounded-lg mb-4 hidden md:block" />
           <div class="text-lg font-semibold text-gray-950">Telegram</div>
         </div>
       </a>
