@@ -27,3 +27,20 @@
 .nav-link:not([data-active="true"]) {
   color: var(--color-logo);
 }
+
+/* Скрытие полос прокрутки без влияния на функциональность */
+/* Скрытие только визуальных полос прокрутки, прокрутка остается рабочей */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+/* Firefox */
+html {
+  scrollbar-width: none;
+}
+
+/* Internet Explorer 10+ */
+body {
+  -ms-overflow-style: none;
+}
