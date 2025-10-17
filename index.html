@@ -112,8 +112,8 @@ layout: default
         <div class="flex justify-center items-center mt-0 sm:mt-14">
     <div id="videoPinWrapper" class="w-full flex justify-center">
       <div id="videoContainer" class="relative w-[85vw] h-[85vw] max-w-full box-border sm:w-[85vw] sm:h-[90vh]">
-        <video id="teamVideo" class="object-cover w-full h-full rounded-3xl" preload="none" playsinline poster="/resources/data/team/team.jpg">
-          <source src="/resources/data/team/team.mp4" type="video/mp4">
+        <video id="teamVideo" class="object-cover w-full h-full rounded-3xl" preload="none" playsinline poster="http://{{ site.serv_ip }}/data/team/team.jpg">
+          <source src="http://{{ site.serv_ip }}/data/team/team.mp4" type="video/mp4">
           Ваш браузер не поддерживает видео.
         </video>
         <button id="playBtn" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition rounded-2xl"
