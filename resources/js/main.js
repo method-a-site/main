@@ -128,4 +128,60 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Initialize
   activeLink ? moveBgToLink(activeLink) : hoverBg.style.opacity = '0';
+
+  // Smooth scroll for desktop devices
+  let isDesktop = window.innerWidth > 768;
+  let scrollPos = window.pageYOffset;
+  let targetScrollPos = scrollPos;
+  let smoothScrollRAF = null;
+
+  window.addEventListener('resize', () => {
+    isDesktop = window.innerWidth > 768;
+  });
+
+  function smoothScroll() {
+    scrollPos += (targetScrollPos - scrollPos) * 0.1;
+    
+    if (Math.abs(targetScrollPos - scrollPos) < 0.5) {
+      scrollPos = targetScrollPos;
+      smoothScrollRAF = null;
+      return;
+    }
+    
+    window.scrollTo(0, scrollPos);
+    smoothScrollRAF = requestAnimationFrame(smoothScroll);
+  }
+
+  if (isDesktop) {
+    window.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      targetScrollPos += e.deltaY;
+      
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      targetScrollPos = Math.max(0, Math.min(targetScrollPos, maxScroll));
+      
+      if (!smoothScrollRAF) {
+        smoothScrollRAF = requestAnimationFrame(smoothScroll);
+      }
+    }, { passive: false });
+
+    window.addEventListener('keydown', (e) => {
+      const scrollAmount = e.key === 'ArrowDown' || e.key === 'ArrowUp' ? 100 : 
+                          e.key === 'PageDown' || e.key === 'PageUp' ? window.innerHeight * 0.8 : 0;
+      
+      if (scrollAmount) {
+        e.preventDefault();
+        targetScrollPos += (e.key === 'ArrowDown' || e.key === 'PageDown') ? scrollAmount : -scrollAmount;
+        
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        targetScrollPos = Math.max(0, Math.min(targetScrollPos, maxScroll));
+        
+        if (!smoothScrollRAF) {
+          smoothScrollRAF = requestAnimationFrame(smoothScroll);
+        }
+      }
+    });
+  }
 });
+
+
