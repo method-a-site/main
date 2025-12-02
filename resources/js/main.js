@@ -134,26 +134,44 @@ document.addEventListener('DOMContentLoaded', function() {
   let scrollPos = window.pageYOffset;
   let targetScrollPos = scrollPos;
   let smoothScrollRAF = null;
+  let isAnchorScrolling = false; // Flag to prevent interference with anchor scrolling
 
   window.addEventListener('resize', () => {
     isDesktop = window.innerWidth > 768;
   });
+
+  // Update targetScrollPos when external smooth-scroll.js updates the position
+  let lastKnownScrollPos = scrollPos;
+  const scrollObserver = setInterval(() => {
+    const currentScroll = window.pageYOffset;
+    if (Math.abs(currentScroll - lastKnownScrollPos) > 5 && !smoothScrollRAF) {
+      // External scroll detected (e.g., from smooth-scroll.js)
+      scrollPos = currentScroll;
+      targetScrollPos = currentScroll;
+      lastKnownScrollPos = currentScroll;
+    }
+  }, 100);
 
   function smoothScroll() {
     scrollPos += (targetScrollPos - scrollPos) * 0.1;
     
     if (Math.abs(targetScrollPos - scrollPos) < 0.5) {
       scrollPos = targetScrollPos;
+      lastKnownScrollPos = scrollPos;
       smoothScrollRAF = null;
       return;
     }
     
     window.scrollTo(0, scrollPos);
+    lastKnownScrollPos = scrollPos;
     smoothScrollRAF = requestAnimationFrame(smoothScroll);
   }
 
   if (isDesktop) {
     window.addEventListener('wheel', (e) => {
+      // Don't interfere if modal is open
+      if (!modalOverlay.classList.contains('hidden')) return;
+      
       e.preventDefault();
       targetScrollPos += e.deltaY;
       
@@ -166,6 +184,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { passive: false });
 
     window.addEventListener('keydown', (e) => {
+      // Don't interfere if modal is open
+      if (!modalOverlay.classList.contains('hidden')) return;
+      
       const scrollAmount = e.key === 'ArrowDown' || e.key === 'ArrowUp' ? 100 : 
                           e.key === 'PageDown' || e.key === 'PageUp' ? window.innerHeight * 0.8 : 0;
       
