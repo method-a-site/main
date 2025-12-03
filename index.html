@@ -132,22 +132,76 @@ layout: default
   <!-- Компенсация пространства для video pin (только для десктопа) -->
   <div id="videoScrollSpace" class="w-full hidden sm:block"></div>
 
-  <div class="slide-section h-screen relative z-20 bg-transparent" data-bg="var(--color-background-middle)">
-      <div class="flex flex-col items-center justify-center h-full w-full px-4 py-8 sm:px-12">
-        <h2 class="text-2xl sm:text-4xl font-semibold text-center mb-6 text-gray-700">Наши направления</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-5xl h-full">
-          <div class="bg-white rounded-2xl p-5 flex flex-col items-center text-center transition h-full">
-        <h3 class="text-lg font-medium mb-2">Образование</h3>
-        <p class="text-gray-500 text-sm">Современные методики обучения для школьников и студентов.</p>
+  <div class="slide-section min-h-screen relative z-20 bg-transparent py-16" data-bg="var(--color-background-middle)">
+      <div class="relative px-8 sm:px-14 md:px-28 flex flex-col">
+        <h1 class="font-medium mt-[8vh] sm:mt-[12vh] max-w-full text-4xl sm:text-5xl md:text-7xl">Работаем на уровне тех,</h1>
+        <h1 class="font-medium sm:mb-16 max-w-full text-4xl sm:text-5xl md:text-7xl">кто мыслит масштабно</h1>
+        
+        <div class="flex flex-col gap-8 sm:gap-12 w-full mt-4">
+          <!-- Карточка 1: Результат (название слева, карточка справа) -->
+          <div class="principle-item grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 items-center mb-8 sm:mb-0">
+            <div class="principle-text order-1">
+              <h3 class="text-2xl sm:text-4xl font-medium mb-4 sm:mb-6 leading-tight">Результат</h3>
+              <p class="text-gray-600 text-base sm:text-lg leading-relaxed mb-8 sm:mb-10">У любого обучения особенно корпоративного должен быть результат. На этапе брифа мы фиксируем, какой результат вы хотите получить и как мы будем его замерять.</p>
+              <div class="grid grid-cols-3 gap-4 sm:gap-8 w-full mt-6">
+                <div class="flex flex-col items-start">
+                  <div class="text-3xl sm:text-5xl font-bold mb-2 sm:mb-3 text-gray-900">
+                    <span class="counter" data-target="93">0</span>%
+                  </div>
+                  <div class="text-xs sm:text-sm text-gray-500 leading-snug">Довольных<br>клиентов</div>
+                </div>
+                <div class="flex flex-col items-start">
+                  <div class="text-3xl sm:text-5xl font-bold mb-2 sm:mb-3 text-gray-900">
+                    <span class="counter" data-target="7">0</span>
+                  </div>
+                  <div class="text-xs sm:text-sm text-gray-500 leading-snug">Лет создания<br>цифровых продуктов</div>
+                </div>
+                <div class="flex flex-col items-start">
+                  <div class="text-3xl sm:text-5xl font-bold mb-2 sm:mb-3 text-gray-900">
+                    <span class="counter" data-target="27">0</span>+
+                  </div>
+                  <div class="text-xs sm:text-sm text-gray-500 leading-snug">Наград от AWA,<br>FWA и Awwwards</div>
+                </div>
+              </div>
+            </div>
+            <div class="principle-card bg-white rounded-2xl overflow-hidden order-2">
+              <video class="principle-video w-full h-full object-cover" muted loop playsinline preload="metadata">
+                <source src="https://ftp.method-a.ru/data/large.mp4" type="video/mp4">
+              </video>
+            </div>
           </div>
-          <div class="bg-white rounded-2xl p-5 flex flex-col items-center text-center transition h-full">
-        <h3 class="text-lg font-medium mb-2">Консалтинг</h3>
-        <p class="text-gray-500 text-sm">Помощь в выборе образовательной траектории и карьерном развитии.</p>
+
+          <!-- Карточка 2: Открытость (карточка слева, название справа) -->
+          <div class="principle-item grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 items-center mb-8 sm:mb-0">
+            <div class="principle-card bg-white rounded-2xl p-8 flex flex-col items-center justify-center order-2 sm:order-1 min-h-[280px] sm:min-h-[440px]">
+              <div class="w-32 h-32 sm:w-40 sm:h-40 mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                <svg class="w-16 h-16 sm:w-20 sm:h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="principle-text order-1 sm:order-2">
+              <h3 class="text-2xl sm:text-3xl font-medium mb-3 leading-tight">Открытость</h3>
+              <p class="text-gray-600 text-base sm:text-lg leading-relaxed">Мы берем проекты любой сложности и выстраиваем процессы так, чтобы вам было понятно, на каком этапе проект и какие есть результаты.</p>
+            </div>
           </div>
-          <div class="bg-white rounded-2xl p-5 flex flex-col items-center text-center transition h-full">
-        <h3 class="text-lg font-medium mb-2">IT-решения</h3>
-        <p class="text-gray-500 text-sm">Интерактивные платформы и цифровые инструменты для обучения.</p>
+
+          <!-- Карточка 3: Поддержка (название слева, карточка справа) -->
+          <div class="principle-item grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 items-center mb-8 sm:mb-0">
+            <div class="principle-text order-1">
+              <h3 class="text-2xl sm:text-3xl font-medium mb-3 leading-tight">Поддержка</h3>
+              <p class="text-gray-600 text-base sm:text-lg leading-relaxed">Мы не просто разрабатываем обучение, мы развиваем ваших экспертов, чтобы они тоже выросли в процессе подготовки обучения, а также мы сопровождаем студентов, чтобы поддерживать их мотивацию на пути к цели.</p>
+            </div>
+            <div class="principle-card bg-white rounded-2xl p-8 flex flex-col items-center justify-center order-2 min-h-[280px] sm:min-h-[350px] shadow-md">
+              <div class="w-32 h-32 sm:w-40 sm:h-40 mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                <svg class="w-16 h-16 sm:w-20 sm:h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
   </div>
@@ -183,4 +237,7 @@ layout: default
 <script src="/resources/js/index/main.js"></script>
 <script src="/resources/js/index/words.js"></script>
 <script src="/resources/js/index/play.js"></script>
+<script src="/resources/js/index/principles-animation.js"></script>
+<script src="/resources/js/index/counter-animation.js"></script>
+
 
