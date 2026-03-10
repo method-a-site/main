@@ -22,38 +22,12 @@ body {
   overflow-x: hidden;
 }
 
-html {
-  overflow-x: hidden;
-}
-
-body:not(.js-ready) #siteNameBar,
-body:not(.js-ready) #siteIconBar {
-  opacity: 0;
-}
-
 .card-link {
   opacity: 0;
 }
 
 .main-container {
   overflow-x: hidden;
-}
-
-#expandingContainer {
-  overflow-x: hidden;
-}
-
-/* CTA-кнопки в expandingContainer */
-.cta-btn {
-  background-color: var(--color-hover-current-page);
-  color: var(--color-text-current-page);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-.cta-btn:hover,
-.cta-btn:focus-visible {
-  background-color: var(--color-text-current-page);
-  color: var(--color-hover-current-page);
-  outline: none;
 }
 
 #mainHeaderSection {

@@ -113,36 +113,30 @@ function initVideoSpaceCompensation() {
 
 gsap.registerPlugin(ScrollTrigger);
 
-let videoPinTrigger = null;
-let videoTween = null;
+// Инициализируем компенсацию при загрузке
+document.addEventListener('DOMContentLoaded', initVideoSpaceCompensation);
 
-function setupVideoScrollTrigger() {
-  if (videoPinTrigger) {
-    videoPinTrigger.kill();
-    videoPinTrigger = null;
-  }
-  if (videoTween) {
-    videoTween.kill();
-    videoTween = null;
-  }
+// Пересчитываем компенсацию при изменении размера окна
+window.addEventListener('resize', () => {
+  initVideoSpaceCompensation(); // Функция сама проверит isMobile()
+});
 
-  if (isMobile()) return;
-
-  videoPinTrigger = ScrollTrigger.create({
+if (!isMobile()) {
+  ScrollTrigger.create({
     trigger: "#videoPinWrapper",
     start: "center center",
-    end: () => `+=${window.innerHeight * VIDEO_PIN_LENGTH_VH}px`,
+    end: `+=${window.innerHeight * VIDEO_PIN_LENGTH_VH}px`, // Используем ту же константу
     pin: true,
     pinSpacing: false,
     //markers: true,
     scrub: false
   });
 
-  videoTween = gsap.to("#videoContainer", {
+  gsap.to("#videoContainer", {
     scrollTrigger: {
       trigger: "#videoPinWrapper",
       start: "center center",
-      end: () => `+=${window.innerHeight * VIDEO_PIN_LENGTH_VH}px`,
+      end: `+=${window.innerHeight * VIDEO_PIN_LENGTH_VH}px`, // Синхронизируем с пинированием
       scrub: 0.5,
       //markers: true
     },
@@ -155,16 +149,3 @@ function setupVideoScrollTrigger() {
     repeat: 1
   });
 }
-
-// Инициализируем компенсацию и триггеры при загрузке
-document.addEventListener('DOMContentLoaded', () => {
-  initVideoSpaceCompensation();
-  setupVideoScrollTrigger();
-});
-
-// При ресайзе пересчитываем только высоту компенсации.
-// ScrollTrigger.refresh() вызывается в main.js с дебаунсом и перестраивает
-// все триггеры, включая видео-пин (end задан как функция).
-window.addEventListener('resize', () => {
-  initVideoSpaceCompensation();
-});

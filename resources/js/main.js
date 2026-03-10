@@ -60,11 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
     openModal(centerX, centerY);
   });
   closeModalIcon.addEventListener('click', closeModal);
-  const contactsBtn = document.getElementById('contactsBtn');
-  contactsBtn?.addEventListener('click', function(e) {
+  document.getElementById('contactsBtn')?.addEventListener('click', function(e) {
     e.preventDefault();
-    // Use the button element itself, not e.target (could be a child node)
-    const rect = contactsBtn.getBoundingClientRect();
+    const rect = e.target.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     openModal(centerX, centerY);
@@ -137,93 +135,22 @@ document.addEventListener('DOMContentLoaded', function() {
   let targetScrollPos = scrollPos;
   let smoothScrollRAF = null;
   let isAnchorScrolling = false; // Flag to prevent interference with anchor scrolling
-  let wheelHandler = null;
-  let keyHandler = null;
-  let listenersActive = false;
-
-  function stopSmoothScroll() {
-    if (smoothScrollRAF) {
-      cancelAnimationFrame(smoothScrollRAF);
-      smoothScrollRAF = null;
-    }
-    scrollPos = window.pageYOffset;
-    targetScrollPos = scrollPos;
-  }
-
-  function enableDesktopSmoothScroll() {
-    if (listenersActive || !isDesktop) return;
-    listenersActive = true;
-
-    wheelHandler = (e) => {
-      // Don't interfere if modal is open
-      if (!modalOverlay.classList.contains('hidden')) return;
-
-      e.preventDefault();
-      targetScrollPos += e.deltaY;
-
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      targetScrollPos = Math.max(0, Math.min(targetScrollPos, maxScroll));
-
-      if (!smoothScrollRAF) {
-        smoothScrollRAF = requestAnimationFrame(smoothScroll);
-      }
-    };
-
-    keyHandler = (e) => {
-      // Don't interfere if modal is open
-      if (!modalOverlay.classList.contains('hidden')) return;
-
-      const scrollAmount = e.key === 'ArrowDown' || e.key === 'ArrowUp' ? 100 :
-                          e.key === 'PageDown' || e.key === 'PageUp' ? window.innerHeight * 0.8 : 0;
-
-      if (scrollAmount) {
-        e.preventDefault();
-        targetScrollPos += (e.key === 'ArrowDown' || e.key === 'PageDown') ? scrollAmount : -scrollAmount;
-
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        targetScrollPos = Math.max(0, Math.min(targetScrollPos, maxScroll));
-
-        if (!smoothScrollRAF) {
-          smoothScrollRAF = requestAnimationFrame(smoothScroll);
-        }
-      }
-    };
-
-    window.addEventListener('wheel', wheelHandler, { passive: false });
-    window.addEventListener('keydown', keyHandler);
-  }
-
-  function disableDesktopSmoothScroll() {
-    if (!listenersActive) return;
-    if (wheelHandler) window.removeEventListener('wheel', wheelHandler);
-    if (keyHandler) window.removeEventListener('keydown', keyHandler);
-    wheelHandler = null;
-    keyHandler = null;
-    listenersActive = false;
-    stopSmoothScroll();
-  }
 
   window.addEventListener('resize', () => {
-    const nextIsDesktop = window.innerWidth > 768;
-    if (nextIsDesktop === isDesktop) return;
-    isDesktop = nextIsDesktop;
-    if (isDesktop) {
-      enableDesktopSmoothScroll();
-    } else {
-      disableDesktopSmoothScroll();
-    }
+    isDesktop = window.innerWidth > 768;
   });
 
-  // Sync position when a programmatic scroll (e.g. smooth-scroll.js anchor) moves the page
+  // Update targetScrollPos when external smooth-scroll.js updates the position
   let lastKnownScrollPos = scrollPos;
-  window.addEventListener('scroll', () => {
+  const scrollObserver = setInterval(() => {
     const currentScroll = window.pageYOffset;
     if (Math.abs(currentScroll - lastKnownScrollPos) > 5 && !smoothScrollRAF) {
+      // External scroll detected (e.g., from smooth-scroll.js)
       scrollPos = currentScroll;
       targetScrollPos = currentScroll;
       lastKnownScrollPos = currentScroll;
     }
-  }, { passive: true });
+  }, 100);
 
   function smoothScroll() {
     scrollPos += (targetScrollPos - scrollPos) * 0.1;
@@ -241,7 +168,40 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   if (isDesktop) {
-    enableDesktopSmoothScroll();
+    window.addEventListener('wheel', (e) => {
+      // Don't interfere if modal is open
+      if (!modalOverlay.classList.contains('hidden')) return;
+      
+      e.preventDefault();
+      targetScrollPos += e.deltaY;
+      
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      targetScrollPos = Math.max(0, Math.min(targetScrollPos, maxScroll));
+      
+      if (!smoothScrollRAF) {
+        smoothScrollRAF = requestAnimationFrame(smoothScroll);
+      }
+    }, { passive: false });
+
+    window.addEventListener('keydown', (e) => {
+      // Don't interfere if modal is open
+      if (!modalOverlay.classList.contains('hidden')) return;
+      
+      const scrollAmount = e.key === 'ArrowDown' || e.key === 'ArrowUp' ? 100 : 
+                          e.key === 'PageDown' || e.key === 'PageUp' ? window.innerHeight * 0.8 : 0;
+      
+      if (scrollAmount) {
+        e.preventDefault();
+        targetScrollPos += (e.key === 'ArrowDown' || e.key === 'PageDown') ? scrollAmount : -scrollAmount;
+        
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        targetScrollPos = Math.max(0, Math.min(targetScrollPos, maxScroll));
+        
+        if (!smoothScrollRAF) {
+          smoothScrollRAF = requestAnimationFrame(smoothScroll);
+        }
+      }
+    });
   }
 });
 
