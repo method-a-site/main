@@ -94,6 +94,23 @@ function loopCarousel() {
 
 function initExpandingAndTitles() {
   gsap.registerPlugin(ScrollTrigger);
+
+  const mainContainer = document.querySelector('.main-container');
+  const expandingContainer = document.getElementById('expandingContainer');
+  const leftWork = document.getElementById('leftWork');
+  const rightWord = document.getElementById('rightWord');
+  const workWords = [leftWork, rightWord].filter(Boolean);
+  const siteBars = [
+    document.getElementById('siteNameBar'),
+    document.getElementById('siteIconBar')
+  ].filter(Boolean);
+  const bgBlend = document.querySelector('.background-blend');
+  const cardsContainer = document.getElementById('cardsContainer');
+  const cards = Array.from(document.querySelectorAll('.card-link'));
+
+  if (cardsContainer) {
+    cardsContainer.style.cssText = 'perspective: 1000px; perspective-origin: center center';
+  }
   
   ScrollTrigger.create({
     trigger: ".main-container",
@@ -105,7 +122,6 @@ function initExpandingAndTitles() {
     //markers: true,
     onUpdate: self => {
       const progress = self.progress;
-      const mainContainer = document.querySelector('.main-container');
       
       // Убираем z-index у main-container после завершения анимации expanding
       if (progress >= 1 && mainContainer) {
@@ -115,42 +131,43 @@ function initExpandingAndTitles() {
       // Анимации элементов на основе прогресса скролла
       const isMobile = window.innerWidth < 640;
       const maxOffset = isMobile ? window.innerWidth * 0.4 : window.innerWidth / 2;
-      gsap.set(["#leftWork", "#rightWord"], {
-        x: i => (i === 0 ? -1 : 1) * window.innerWidth / 2 * progress,
-        x: i => (i === 0 ? -1 : 1) * maxOffset * progress,
-        opacity: 1 - Math.max(0, (progress - 0.7) / 0.3)
-      });
-      gsap.set("#expandingContainer", {
-        scale: progress < 0.3 ? 0.2 + 2.67 * progress : 1,
-        opacity: progress < 0.3 ? progress * 3.33 : 1,
-        borderRadius: progress < 0.3 ? `${2 - (progress * 6.67)}rem` : "0rem"
-      });
+      if (workWords.length) {
+        gsap.set(workWords, {
+          x: i => (i === 0 ? -1 : 1) * maxOffset * progress,
+          opacity: 1 - Math.max(0, (progress - 0.7) / 0.3)
+        });
+      }
+      if (expandingContainer) {
+        gsap.set(expandingContainer, {
+          scale: progress < 0.3 ? 0.2 + 2.67 * progress : 1,
+          opacity: progress < 0.3 ? progress * 3.33 : 1,
+          borderRadius: progress < 0.3 ? `${2 - (progress * 6.67)}rem` : "0rem"
+        });
+      }
 
       // Меняем цвет фона в конце анимации
       const targetColor = progress > 0.9 ? '#E0E0D1' : '#F3F3E9';
       document.documentElement.style.setProperty('--color-background-top', targetColor);
       
       // Также меняем цвет background-blend элемента
-      const bgBlend = document.querySelector('.background-blend');
       if (bgBlend) {
         bgBlend.style.backgroundColor = targetColor;
       }
 
       // Плавно анимируем название
-      gsap.to(['#siteNameBar', '#siteIconBar'], {
-        y: progress >= 1 ? -100 : 0,
-        opacity: progress >= 1 ? 0 : 1,
-        duration: 0.2,
-        ease: "power1.out"
-      });
+      if (siteBars.length) {
+        gsap.to(siteBars, {
+          y: progress >= 1 ? -100 : 0,
+          opacity: progress >= 1 ? 0 : 1,
+          duration: 0.2,
+          ease: "power1.out"
+        });
+      }
 
       // Эффект вылета карточек на зрителя
-      const cardsContainer = document.getElementById('cardsContainer');
-      if (cardsContainer) cardsContainer.style.cssText = 'perspective: 1000px; perspective-origin: center center';
-      
       const isReady = Date.now() - (window.cardsAppearanceStartTime || 0) > 2000;
-      
-      document.querySelectorAll('.card-link').forEach((card, i) => {
+
+      cards.forEach((card, i) => {
         if (!isReady) return; // Не трогаем карточки до завершения анимации появления
         
         const cardProgress = Math.max(0, (progress - 0.1 - i * 0.03) / 0.5);
@@ -175,12 +192,18 @@ function initExpandingAndTitles() {
   });
 }
 document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('js-ready');
+
   // Компенсируем пространство для ScrollTrigger с pinSpacing: false
-  const scrollSpace = document.getElementById('scrollSpace');
-  if (scrollSpace) {
-    const spaceHeight = window.innerHeight * ANIMATION_LENGTH_VH;
-    scrollSpace.style.height = spaceHeight + 'px';
+  function updateScrollSpace() {
+    const scrollSpace = document.getElementById('scrollSpace');
+    if (scrollSpace) {
+      const spaceHeight = window.innerHeight * ANIMATION_LENGTH_VH;
+      scrollSpace.style.height = spaceHeight + 'px';
+    }
   }
+
+  updateScrollSpace();
   
   window.cardsAppearanceStartTime = Date.now();
   
@@ -212,14 +235,30 @@ document.addEventListener('DOMContentLoaded', () => {
   initExpandingAndTitles();
 });
 
+window.addEventListener('load', () => {
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.refresh();
+  }
+});
+
 let resizeTimeout;
 window.addEventListener('resize', () => {
   isResizing = true;
   clearTimeout(resizeTimeout);
   calculateCarouselCardSizes();
+  if (typeof ScrollTrigger !== 'undefined') {
+    const scrollSpace = document.getElementById('scrollSpace');
+    if (scrollSpace) {
+      const spaceHeight = window.innerHeight * ANIMATION_LENGTH_VH;
+      scrollSpace.style.height = spaceHeight + 'px';
+    }
+  }
   resizeTimeout = setTimeout(() => {
     isResizing = false;
     calculateCarouselCardSizes();
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
   }, 200);
 });
 function positionCardsRandomly() {

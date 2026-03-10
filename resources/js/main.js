@@ -135,9 +135,81 @@ document.addEventListener('DOMContentLoaded', function() {
   let targetScrollPos = scrollPos;
   let smoothScrollRAF = null;
   let isAnchorScrolling = false; // Flag to prevent interference with anchor scrolling
+  let wheelHandler = null;
+  let keyHandler = null;
+  let listenersActive = false;
+
+  function stopSmoothScroll() {
+    if (smoothScrollRAF) {
+      cancelAnimationFrame(smoothScrollRAF);
+      smoothScrollRAF = null;
+    }
+    scrollPos = window.pageYOffset;
+    targetScrollPos = scrollPos;
+  }
+
+  function enableDesktopSmoothScroll() {
+    if (listenersActive || !isDesktop) return;
+    listenersActive = true;
+
+    wheelHandler = (e) => {
+      // Don't interfere if modal is open
+      if (!modalOverlay.classList.contains('hidden')) return;
+
+      e.preventDefault();
+      targetScrollPos += e.deltaY;
+
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      targetScrollPos = Math.max(0, Math.min(targetScrollPos, maxScroll));
+
+      if (!smoothScrollRAF) {
+        smoothScrollRAF = requestAnimationFrame(smoothScroll);
+      }
+    };
+
+    keyHandler = (e) => {
+      // Don't interfere if modal is open
+      if (!modalOverlay.classList.contains('hidden')) return;
+
+      const scrollAmount = e.key === 'ArrowDown' || e.key === 'ArrowUp' ? 100 :
+                          e.key === 'PageDown' || e.key === 'PageUp' ? window.innerHeight * 0.8 : 0;
+
+      if (scrollAmount) {
+        e.preventDefault();
+        targetScrollPos += (e.key === 'ArrowDown' || e.key === 'PageDown') ? scrollAmount : -scrollAmount;
+
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        targetScrollPos = Math.max(0, Math.min(targetScrollPos, maxScroll));
+
+        if (!smoothScrollRAF) {
+          smoothScrollRAF = requestAnimationFrame(smoothScroll);
+        }
+      }
+    };
+
+    window.addEventListener('wheel', wheelHandler, { passive: false });
+    window.addEventListener('keydown', keyHandler);
+  }
+
+  function disableDesktopSmoothScroll() {
+    if (!listenersActive) return;
+    if (wheelHandler) window.removeEventListener('wheel', wheelHandler);
+    if (keyHandler) window.removeEventListener('keydown', keyHandler);
+    wheelHandler = null;
+    keyHandler = null;
+    listenersActive = false;
+    stopSmoothScroll();
+  }
 
   window.addEventListener('resize', () => {
-    isDesktop = window.innerWidth > 768;
+    const nextIsDesktop = window.innerWidth > 768;
+    if (nextIsDesktop === isDesktop) return;
+    isDesktop = nextIsDesktop;
+    if (isDesktop) {
+      enableDesktopSmoothScroll();
+    } else {
+      disableDesktopSmoothScroll();
+    }
   });
 
   // Update targetScrollPos when external smooth-scroll.js updates the position
@@ -168,40 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   if (isDesktop) {
-    window.addEventListener('wheel', (e) => {
-      // Don't interfere if modal is open
-      if (!modalOverlay.classList.contains('hidden')) return;
-      
-      e.preventDefault();
-      targetScrollPos += e.deltaY;
-      
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      targetScrollPos = Math.max(0, Math.min(targetScrollPos, maxScroll));
-      
-      if (!smoothScrollRAF) {
-        smoothScrollRAF = requestAnimationFrame(smoothScroll);
-      }
-    }, { passive: false });
-
-    window.addEventListener('keydown', (e) => {
-      // Don't interfere if modal is open
-      if (!modalOverlay.classList.contains('hidden')) return;
-      
-      const scrollAmount = e.key === 'ArrowDown' || e.key === 'ArrowUp' ? 100 : 
-                          e.key === 'PageDown' || e.key === 'PageUp' ? window.innerHeight * 0.8 : 0;
-      
-      if (scrollAmount) {
-        e.preventDefault();
-        targetScrollPos += (e.key === 'ArrowDown' || e.key === 'PageDown') ? scrollAmount : -scrollAmount;
-        
-        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-        targetScrollPos = Math.max(0, Math.min(targetScrollPos, maxScroll));
-        
-        if (!smoothScrollRAF) {
-          smoothScrollRAF = requestAnimationFrame(smoothScroll);
-        }
-      }
-    });
+    enableDesktopSmoothScroll();
   }
 });
 
