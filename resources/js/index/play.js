@@ -162,8 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
   setupVideoScrollTrigger();
 });
 
-// Пересчитываем компенсацию и триггеры при изменении размера окна
+// При ресайзе пересчитываем только высоту компенсации.
+// ScrollTrigger.refresh() вызывается в main.js с дебаунсом и перестраивает
+// все триггеры, включая видео-пин (end задан как функция).
 window.addEventListener('resize', () => {
   initVideoSpaceCompensation();
-  setupVideoScrollTrigger();
 });

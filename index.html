@@ -22,10 +22,10 @@ layout: default
     </div>
     <div id="cardsContainer" class="absolute inset-0 w-full h-full">
       {% for post in site.posts %}
-        <a href="{{ post.url }}" class="card-link absolute transition-[transform,filter] duration-300 ease-out min-w-[44px] min-h-[44px]" style="text-decoration: none; color: inherit; transform-style: preserve-3d;">
+        <a href="{{ post.url }}" aria-label="{{ post.title }}" class="card-link absolute transition-[transform,filter] duration-300 ease-out min-w-[44px] min-h-[44px]" style="text-decoration: none; color: inherit; transform-style: preserve-3d;">
         <div class="card flex flex-col items-center justify-center w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] p-1.5 sm:p-2 bg-white rounded-full sm:rounded-2xl text-center relative border-2 sm:border-3 transition-transform duration-200 ease-out" style="border-color: var(--color-background-top); transform-style: preserve-3d;">
-          <img src="{{ site.data_url }}/data/case_icons/{{ post.tags }}.png" alt="{{ post.title }}" class="featured-image-post w-6 h-6 sm:w-10 sm:h-10 mb-1 sm:mb-2 object-contain relative z-10 transition-transform duration-300 ease-out"/>
-          <span class="hidden sm:block text-[0.6rem] sm:text-[0.9rem] font-medium relative z-10 block leading-tight line-clamp-2 break-words">{{ post.title }}</span>
+          <img src="{{ site.data_url }}/data/case_icons/{{ post.tags }}.png" alt="" role="presentation" class="featured-image-post w-6 h-6 sm:w-10 sm:h-10 mb-1 sm:mb-2 object-contain relative z-10 transition-transform duration-300 ease-out"/>
+          <span class="hidden sm:block text-[0.6rem] sm:text-[0.9rem] font-medium relative z-10 block leading-tight line-clamp-2 break-words" aria-hidden="true">{{ post.title }}</span>
         </div>
         </a>
       {% endfor %}
@@ -80,18 +80,12 @@ layout: default
     <footer class="absolute bottom-0 left-0 w-full h-[15vh] flex items-center justify-center pb-26 sm:pb-0">
       <div class="flex flex-row items-center" style="gap: 1px;">
         <a href="/products"
-          class="flex-1 text-center px-8 sm:px-12 py-2 sm:py-3 rounded-l-full font-medium transition-colors duration-300 text-sm sm:text-base min-w-[120px] sm:min-w-[240px]"
-          style="background-color: var(--color-hover-current-page); color: var(--color-text-current-page);"
-          onmouseover="this.style.backgroundColor='var(--color-text-current-page)';this.style.color='var(--color-hover-current-page)';"
-          onmouseout="this.style.backgroundColor='var(--color-hover-current-page)';this.style.color='var(--color-text-current-page)';">
+          class="cta-btn flex-1 text-center px-8 sm:px-12 py-2 sm:py-3 rounded-l-full font-medium text-sm sm:text-base min-w-[120px] sm:min-w-[240px]">
           <span class="sm:hidden">Решения</span>
           <span class="hidden sm:inline">Готовые решения</span>
         </a>
         <button id="contactsBtn" type="button"
-          class="flex-1 text-center px-4 sm:px-6 py-2 sm:py-3 rounded-r-full font-medium transition-colors duration-300 text-sm sm:text-base min-w-[120px] cursor-pointer"
-          style="background-color: var(--color-hover-current-page); color: var(--color-text-current-page);"
-          onmouseover="this.style.backgroundColor='var(--color-text-current-page)';this.style.color='var(--color-hover-current-page)';"
-          onmouseout="this.style.backgroundColor='var(--color-hover-current-page)';this.style.color='var(--color-text-current-page)';">
+          class="cta-btn flex-1 text-center px-4 sm:px-6 py-2 sm:py-3 rounded-r-full font-medium text-sm sm:text-base min-w-[120px] cursor-pointer">
           Контакты
         </button>
       </div>

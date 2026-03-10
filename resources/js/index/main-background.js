@@ -50,12 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: thirdSlide,
-      start: "top center",
-      end: "bottom top",
+      start: "bottom center",
+      end: "+=200",
       scrub: true,
       //markers: true,
       onUpdate: self => {
-        if (self.progress > 0.2) {
+        if (self.progress > 0.5) {
           bgBottom.style.pointerEvents = 'auto';
           slideSections.forEach(sec => sec.style.pointerEvents = 'none');
         } else {

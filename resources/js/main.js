@@ -60,9 +60,11 @@ document.addEventListener('DOMContentLoaded', function() {
     openModal(centerX, centerY);
   });
   closeModalIcon.addEventListener('click', closeModal);
-  document.getElementById('contactsBtn')?.addEventListener('click', function(e) {
+  const contactsBtn = document.getElementById('contactsBtn');
+  contactsBtn?.addEventListener('click', function(e) {
     e.preventDefault();
-    const rect = e.target.getBoundingClientRect();
+    // Use the button element itself, not e.target (could be a child node)
+    const rect = contactsBtn.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     openModal(centerX, centerY);
@@ -212,17 +214,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // Update targetScrollPos when external smooth-scroll.js updates the position
+  // Sync position when a programmatic scroll (e.g. smooth-scroll.js anchor) moves the page
   let lastKnownScrollPos = scrollPos;
-  const scrollObserver = setInterval(() => {
+  window.addEventListener('scroll', () => {
     const currentScroll = window.pageYOffset;
     if (Math.abs(currentScroll - lastKnownScrollPos) > 5 && !smoothScrollRAF) {
-      // External scroll detected (e.g., from smooth-scroll.js)
       scrollPos = currentScroll;
       targetScrollPos = currentScroll;
       lastKnownScrollPos = currentScroll;
     }
-  }, 100);
+  }, { passive: true });
 
   function smoothScroll() {
     scrollPos += (targetScrollPos - scrollPos) * 0.1;

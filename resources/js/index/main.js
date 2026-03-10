@@ -59,12 +59,13 @@ function calculateCarouselCardSizes() {
 
 function loopCarousel() {
   const track = document.getElementById('carouselTrack');
-  const cards = track.querySelectorAll('.carousel-card');
-  if (!cards.length || isResizing) return;
+  const container = document.getElementById('carouselContainer');
+  const cards = track ? track.querySelectorAll('.carousel-card') : [];
+  if (!track || !container || !cards.length || isResizing) return;
   
   const firstCard = cards[0];
   const screenWidth = window.innerWidth;
-  const containerWidth = document.getElementById('carouselContainer').offsetWidth;
+  const containerWidth = container.offsetWidth;
   const cardWidth = firstCard.offsetWidth;
   
   let targetX, initialX;
@@ -111,24 +112,44 @@ function initExpandingAndTitles() {
   if (cardsContainer) {
     cardsContainer.style.cssText = 'perspective: 1000px; perspective-origin: center center';
   }
+
+  // Set preserve-3d and force3D once — no need to repeat on every frame
+  cards.forEach(card => {
+    gsap.set(card, { transformStyle: 'preserve-3d', force3D: true });
+  });
+
+  // Flags to avoid redundant DOM writes
+  let mainContainerReset = false;
+  let lastBgColor = '';
   
   ScrollTrigger.create({
     trigger: ".main-container",
     start: "top top",
-    end: `+=${window.innerHeight * ANIMATION_LENGTH_VH}px`, // Используем пиксели вместо vh
+    end: `+=${window.innerHeight * ANIMATION_LENGTH_VH}px`,
     pin: true,
     pinSpacing: false,
     scrub: true,
     //markers: true,
+    onLeave: () => {
+      // Hide name/icon bars when scrolling past the hero
+      if (siteBars.length) gsap.to(siteBars, { y: -100, opacity: 0, duration: 0.2, ease: 'power1.out' });
+    },
+    onEnterBack: () => {
+      // Restore bars when scrolling back into the hero
+      if (siteBars.length) gsap.to(siteBars, { y: 0, opacity: 1, duration: 0.2, ease: 'power1.out' });
+    },
     onUpdate: self => {
       const progress = self.progress;
       
-      // Убираем z-index у main-container после завершения анимации expanding
-      if (progress >= 1 && mainContainer) {
+      // zIndex reset — only write once when crossing the threshold
+      if (progress >= 1 && mainContainer && !mainContainerReset) {
         mainContainer.style.zIndex = '0';
+        mainContainerReset = true;
+      } else if (progress < 1 && mainContainerReset) {
+        mainContainer.style.zIndex = '';
+        mainContainerReset = false;
       }
       
-      // Анимации элементов на основе прогресса скролла
       const isMobile = window.innerWidth < 640;
       const maxOffset = isMobile ? window.innerWidth * 0.4 : window.innerWidth / 2;
       if (workWords.length) {
@@ -145,46 +166,32 @@ function initExpandingAndTitles() {
         });
       }
 
-      // Меняем цвет фона в конце анимации
+      // Only write CSS variable when the value actually changes
       const targetColor = progress > 0.9 ? '#E0E0D1' : '#F3F3E9';
-      document.documentElement.style.setProperty('--color-background-top', targetColor);
-      
-      // Также меняем цвет background-blend элемента
-      if (bgBlend) {
-        bgBlend.style.backgroundColor = targetColor;
+      if (targetColor !== lastBgColor) {
+        document.documentElement.style.setProperty('--color-background-top', targetColor);
+        if (bgBlend) bgBlend.style.backgroundColor = targetColor;
+        lastBgColor = targetColor;
       }
 
-      // Плавно анимируем название
-      if (siteBars.length) {
-        gsap.to(siteBars, {
-          y: progress >= 1 ? -100 : 0,
-          opacity: progress >= 1 ? 0 : 1,
-          duration: 0.2,
-          ease: "power1.out"
-        });
-      }
-
-      // Эффект вылета карточек на зрителя
+      // Card fly-out effect
       const isReady = Date.now() - (window.cardsAppearanceStartTime || 0) > 2000;
 
       cards.forEach((card, i) => {
-        if (!isReady) return; // Не трогаем карточки до завершения анимации появления
+        if (!isReady) return;
         
         const cardProgress = Math.max(0, (progress - 0.1 - i * 0.03) / 0.5);
         const isFlying = progress > 0.1 && cardProgress > 0;
         
         card.classList.toggle('flying-card', isFlying);
         
-        // Анимация карточек в одном gsap.set
         gsap.set(card, {
           opacity: progress > 0.8 ? 0 : (isFlying ? Math.max(0.1, 1 - cardProgress * 0.8) : 1),
           scale: progress > 0.8 ? 1 : (isFlying ? 1 + cardProgress * 0.15 : 1),
           rotationX: progress > 0.8 ? 0 : (isFlying ? Math.sin(cardProgress * Math.PI) * 5 : 0),
           rotationY: progress > 0.8 ? 0 : (isFlying ? Math.cos(cardProgress * Math.PI) * 3 : 0),
           rotationZ: progress > 0.8 ? 0 : (isFlying ? Math.sin(cardProgress * Math.PI * 2) * 10 : 0),
-          z: progress > 0.8 ? 0 : (isFlying ? cardProgress * 500 : 0),
-          transformStyle: 'preserve-3d',
-          force3D: true
+          z: progress > 0.8 ? 0 : (isFlying ? cardProgress * 500 : 0)
         });
         card.style.pointerEvents = progress > 0.8 ? 'none' : 'auto';
       });
@@ -302,7 +309,6 @@ function positionCardsRandomly() {
     for (let attempt = 0; attempt < 80; attempt++) {
       let x, y;
       if (attempt < 15) {
-        const totalCards = cards.length;
         const cardsPerRing = isMobile ? 6 : 8;
         const ringNumber = Math.floor(i / cardsPerRing);
         const positionInRing = i % cardsPerRing;
