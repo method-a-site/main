@@ -113,30 +113,36 @@ function initVideoSpaceCompensation() {
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Инициализируем компенсацию при загрузке
-document.addEventListener('DOMContentLoaded', initVideoSpaceCompensation);
+let videoPinTrigger = null;
+let videoTween = null;
 
-// Пересчитываем компенсацию при изменении размера окна
-window.addEventListener('resize', () => {
-  initVideoSpaceCompensation(); // Функция сама проверит isMobile()
-});
+function setupVideoScrollTrigger() {
+  if (videoPinTrigger) {
+    videoPinTrigger.kill();
+    videoPinTrigger = null;
+  }
+  if (videoTween) {
+    videoTween.kill();
+    videoTween = null;
+  }
 
-if (!isMobile()) {
-  ScrollTrigger.create({
+  if (isMobile()) return;
+
+  videoPinTrigger = ScrollTrigger.create({
     trigger: "#videoPinWrapper",
     start: "center center",
-    end: `+=${window.innerHeight * VIDEO_PIN_LENGTH_VH}px`, // Используем ту же константу
+    end: () => `+=${window.innerHeight * VIDEO_PIN_LENGTH_VH}px`,
     pin: true,
     pinSpacing: false,
     //markers: true,
     scrub: false
   });
 
-  gsap.to("#videoContainer", {
+  videoTween = gsap.to("#videoContainer", {
     scrollTrigger: {
       trigger: "#videoPinWrapper",
       start: "center center",
-      end: `+=${window.innerHeight * VIDEO_PIN_LENGTH_VH}px`, // Синхронизируем с пинированием
+      end: () => `+=${window.innerHeight * VIDEO_PIN_LENGTH_VH}px`,
       scrub: 0.5,
       //markers: true
     },
@@ -149,3 +155,15 @@ if (!isMobile()) {
     repeat: 1
   });
 }
+
+// Инициализируем компенсацию и триггеры при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+  initVideoSpaceCompensation();
+  setupVideoScrollTrigger();
+});
+
+// Пересчитываем компенсацию и триггеры при изменении размера окна
+window.addEventListener('resize', () => {
+  initVideoSpaceCompensation();
+  setupVideoScrollTrigger();
+});

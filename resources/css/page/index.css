@@ -22,6 +22,10 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body:not(.js-ready) #siteNameBar,
 body:not(.js-ready) #siteIconBar {
   opacity: 0;
@@ -32,6 +36,11 @@ body:not(.js-ready) #siteIconBar {
 }
 
 .main-container {
+  overflow-x: hidden;
+}
+
+#expandingContainer,
+.slide-section {
   overflow-x: hidden;
 }
 
