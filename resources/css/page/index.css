@@ -4,6 +4,7 @@
   --color-background-top-2: #E0E0D1;
   --color-background-middle: #B488F1;
   --color-background-bottom: #E0E0D1;
+  --mobile-safe-bottom: env(safe-area-inset-bottom);
 
   /* Навигационная панель */
   --color-hover-current-page: #0F1D07;
@@ -19,7 +20,16 @@
 
 body {
   color: #0F1D07; /* Цвет текста */
-  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+html {
+  overflow-x: clip;
+}
+
+body:not(.js-ready) #siteNameBar,
+body:not(.js-ready) #siteIconBar {
+  opacity: 0;
 }
 
 .card-link {
@@ -28,6 +38,33 @@ body {
 
 .main-container {
   overflow-x: hidden;
+}
+
+#expandingContainer {
+  overflow-x: clip;
+}
+
+#carouselContainer {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+#carouselTrack {
+  max-width: 100%;
+  will-change: transform;
+}
+
+/* CTA-кнопки в expandingContainer */
+.cta-btn {
+  background-color: var(--color-hover-current-page);
+  color: var(--color-text-current-page);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.cta-btn:hover,
+.cta-btn:focus-visible {
+  background-color: var(--color-text-current-page);
+  color: var(--color-hover-current-page);
+  outline: none;
 }
 
 #mainHeaderSection {
