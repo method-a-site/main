@@ -1,0 +1,397 @@
+let carouselAnimation = null;
+let isResizing = false;
+let lastViewportWidth = window.innerWidth;
+let lastViewportHeight = window.innerHeight;
+
+// Настройка длины анимации в единицах высоты экрана
+const ANIMATION_LENGTH_VH = 2; // 2 высоты экрана - легко изменить здесь
+
+function calculateCarouselCardSizes() {
+  const container = document.getElementById('carouselContainer');
+  const cards = document.querySelectorAll('.carousel-card');
+  if (!container || !cards.length) return;
+  
+  if (carouselAnimation) {
+    carouselAnimation.kill();
+    carouselAnimation = null;
+  }
+  
+  const containerWidth = container.offsetWidth;
+  const screenWidth = window.innerWidth;
+  
+  let smallCardWidth, largeCardWidth;
+  
+  if (screenWidth >= 640) {
+    smallCardWidth = containerWidth / 3.4;
+    largeCardWidth = smallCardWidth * 1.2;
+  } else {
+    smallCardWidth = containerWidth * 0.85;
+    largeCardWidth = smallCardWidth;
+  }
+  
+  const track = document.getElementById('carouselTrack');
+  if (track) {
+    gsap.set(track, { x: 0 });
+  }
+  
+  cards.forEach(card => {
+    if (screenWidth < 640) {
+      card.style.width = smallCardWidth + 'px';
+      card.classList.remove('h-[85%]');
+      card.classList.add('h-full');
+    } else {
+      if (card.classList.contains('carousel-card-large')) {
+        card.style.width = largeCardWidth + 'px';
+        card.classList.add('h-full');
+        card.classList.remove('h-[65%]');
+      } else {
+        card.style.width = smallCardWidth + 'px';
+        card.classList.add('h-[65%]');
+        card.classList.remove('h-full');
+      }
+    }
+  });
+  
+  setTimeout(() => {
+    if (!isResizing) {
+      loopCarousel();
+    }
+  }, 50);
+}
+
+function loopCarousel() {
+  const track = document.getElementById('carouselTrack');
+  const container = document.getElementById('carouselContainer');
+  const cards = track ? track.querySelectorAll('.carousel-card') : [];
+  if (!track || !container || !cards.length || isResizing) return;
+  
+  const firstCard = cards[0];
+  const screenWidth = window.innerWidth;
+  const containerWidth = container.offsetWidth;
+  const cardWidth = firstCard.offsetWidth;
+  
+  let targetX, initialX;
+  
+  if (screenWidth >= 640) {
+    targetX = -cardWidth;
+    initialX = 0;
+  } else {
+    const centerOffset = (containerWidth - cardWidth) / 2;
+    targetX = centerOffset - cardWidth;
+    initialX = centerOffset;
+  }
+  
+  carouselAnimation = gsap.to(track, {
+    x: targetX,
+    duration: 5,
+    ease: screenWidth >= 640 ? "power1.inOut" : "sine.inOut",
+    onComplete: () => {
+      if (!isResizing && cards.length > 0) {
+        track.appendChild(firstCard);
+        gsap.set(track, { x: initialX });
+        loopCarousel();
+      }
+    }
+  });
+}
+
+function initExpandingAndTitles() {
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mainContainer = document.querySelector('.main-container');
+  const expandingContainer = document.getElementById('expandingContainer');
+  const leftWork = document.getElementById('leftWork');
+  const rightWord = document.getElementById('rightWord');
+  const workWords = [leftWork, rightWord].filter(Boolean);
+  const siteBars = [
+    document.getElementById('siteNameBar'),
+    document.getElementById('siteIconBar')
+  ].filter(Boolean);
+  const bgBlend = document.querySelector('.background-blend');
+  const cardsContainer = document.getElementById('cardsContainer');
+  const mainHeaderSection = document.getElementById('mainHeaderSection');
+  const cards = Array.from(document.querySelectorAll('.card-link'));
+
+  const setPostsLayerVisible = (visible) => {
+    const targets = [cardsContainer, mainHeaderSection].filter(Boolean);
+    if (!targets.length) return;
+
+    if (visible) {
+      targets.forEach((el) => {
+        el.style.visibility = '';
+        el.style.pointerEvents = '';
+      });
+    } else {
+      targets.forEach((el) => {
+        el.style.visibility = 'hidden';
+        el.style.pointerEvents = 'none';
+      });
+    }
+  };
+
+  if (cardsContainer) {
+    cardsContainer.style.cssText = 'perspective: 1000px; perspective-origin: center center';
+  }
+
+  // Set preserve-3d and force3D once — no need to repeat on every frame
+  cards.forEach(card => {
+    gsap.set(card, { transformStyle: 'preserve-3d', force3D: true });
+  });
+
+  // Flags to avoid redundant DOM writes
+  let mainContainerReset = false;
+  let lastBgColor = '';
+  
+  ScrollTrigger.create({
+    trigger: ".main-container",
+    start: "top top",
+    end: `+=${window.innerHeight * ANIMATION_LENGTH_VH}px`,
+    pin: true,
+    pinSpacing: false,
+    scrub: true,
+    //markers: true,
+    onLeave: () => {
+      // Hide name/icon bars when scrolling past the hero
+      if (siteBars.length) gsap.to(siteBars, { y: -100, opacity: 0, duration: 0.2, ease: 'power1.out' });
+      setPostsLayerVisible(false);
+    },
+    onEnterBack: () => {
+      // Restore bars when scrolling back into the hero
+      setPostsLayerVisible(true);
+      if (siteBars.length) gsap.to(siteBars, { y: 0, opacity: 1, duration: 0.2, ease: 'power1.out' });
+    },
+    onUpdate: self => {
+      const progress = self.progress;
+      
+      // zIndex reset — only write once when crossing the threshold
+      if (progress >= 1 && mainContainer && !mainContainerReset) {
+        mainContainer.style.zIndex = '0';
+        mainContainerReset = true;
+      } else if (progress < 1 && mainContainerReset) {
+        mainContainer.style.zIndex = '';
+        mainContainerReset = false;
+      }
+      
+      const isMobile = window.innerWidth < 640;
+      const maxOffset = isMobile ? window.innerWidth * 0.4 : window.innerWidth / 2;
+      if (workWords.length) {
+        gsap.set(workWords, {
+          x: i => (i === 0 ? -1 : 1) * maxOffset * progress,
+          opacity: 1 - Math.max(0, (progress - 0.7) / 0.3)
+        });
+      }
+      if (expandingContainer) {
+        gsap.set(expandingContainer, {
+          scale: progress < 0.3 ? 0.2 + 2.67 * progress : 1,
+          opacity: progress < 0.3 ? progress * 3.33 : 1,
+          borderRadius: progress < 0.3 ? `${2 - (progress * 6.67)}rem` : "0rem"
+        });
+      }
+
+      // Only write CSS variable when the value actually changes
+      const targetColor = progress > 0.9 ? '#E0E0D1' : '#F3F3E9';
+      if (targetColor !== lastBgColor) {
+        document.documentElement.style.setProperty('--color-background-top', targetColor);
+        if (bgBlend) bgBlend.style.backgroundColor = targetColor;
+        lastBgColor = targetColor;
+      }
+
+      // Card fly-out effect
+      const isReady = Date.now() - (window.cardsAppearanceStartTime || 0) > 2000;
+
+      cards.forEach((card, i) => {
+        if (!isReady) return;
+        
+        const cardProgress = Math.max(0, (progress - 0.1 - i * 0.03) / 0.5);
+        const isFlying = progress > 0.1 && cardProgress > 0;
+        
+        card.classList.toggle('flying-card', isFlying);
+        
+        gsap.set(card, {
+          opacity: progress > 0.8 ? 0 : (isFlying ? Math.max(0.1, 1 - cardProgress * 0.8) : 1),
+          scale: progress > 0.8 ? 1 : (isFlying ? 1 + cardProgress * 0.15 : 1),
+          rotationX: progress > 0.8 ? 0 : (isFlying ? Math.sin(cardProgress * Math.PI) * 5 : 0),
+          rotationY: progress > 0.8 ? 0 : (isFlying ? Math.cos(cardProgress * Math.PI) * 3 : 0),
+          rotationZ: progress > 0.8 ? 0 : (isFlying ? Math.sin(cardProgress * Math.PI * 2) * 10 : 0),
+          z: progress > 0.8 ? 0 : (isFlying ? cardProgress * 500 : 0)
+        });
+        card.style.pointerEvents = progress > 0.8 ? 'none' : 'auto';
+      });
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('js-ready');
+
+  // Компенсируем пространство для ScrollTrigger с pinSpacing: false
+  function updateScrollSpace() {
+    const scrollSpace = document.getElementById('scrollSpace');
+    if (scrollSpace) {
+      const spaceHeight = window.innerHeight * ANIMATION_LENGTH_VH;
+      scrollSpace.style.height = spaceHeight + 'px';
+    }
+  }
+
+  updateScrollSpace();
+  
+  window.cardsAppearanceStartTime = Date.now();
+  
+  // Изначально фиксируем название сайта и значок
+  gsap.set(['#siteNameBar', '#siteIconBar'], { position: 'fixed', y: 0, opacity: 1 });
+  
+  calculateCarouselCardSizes();
+  positionCardsRandomly();
+  if (typeof addCardMagnetEffect === 'function') {
+    addCardMagnetEffect();
+  }
+  
+  setTimeout(() => {
+    if (window.innerWidth < 640) {
+      const container = document.getElementById('carouselContainer');
+      const track = document.getElementById('carouselTrack');
+      if (container && track) {
+        const containerWidth = container.offsetWidth;
+        const firstCard = track.querySelector('.carousel-card');
+        if (firstCard) {
+          const cardWidth = firstCard.offsetWidth;
+          const centerOffset = (containerWidth - cardWidth) / 2;
+          gsap.set(track, { x: centerOffset });
+        }
+      }
+    }
+  }, 100);
+  
+  initExpandingAndTitles();
+});
+
+window.addEventListener('load', () => {
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.refresh();
+  }
+});
+
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  const currentWidth = window.innerWidth;
+  const currentHeight = window.innerHeight;
+  const isMobileViewport = currentWidth < 640;
+  const widthChanged = currentWidth !== lastViewportWidth;
+  const heightChanged = currentHeight !== lastViewportHeight;
+
+  if (isMobileViewport && heightChanged && !widthChanged) {
+    lastViewportHeight = currentHeight;
+    return;
+  }
+
+  lastViewportWidth = currentWidth;
+  lastViewportHeight = currentHeight;
+
+  isResizing = true;
+  clearTimeout(resizeTimeout);
+  calculateCarouselCardSizes();
+  if (typeof ScrollTrigger !== 'undefined') {
+    const scrollSpace = document.getElementById('scrollSpace');
+    if (scrollSpace) {
+      const spaceHeight = window.innerHeight * ANIMATION_LENGTH_VH;
+      scrollSpace.style.height = spaceHeight + 'px';
+    }
+  }
+  resizeTimeout = setTimeout(() => {
+    isResizing = false;
+    calculateCarouselCardSizes();
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.refresh();
+    }
+  }, 200);
+});
+function positionCardsRandomly() {
+  const container = document.getElementById('cardsContainer');
+  const header = document.getElementById('mainHeaderSection');
+  const navBar = document.getElementById('navBarAnimated');
+  const cards = document.querySelectorAll('.card-link');
+  if (!container || !header || !cards.length) return;
+  const { width, height } = container.getBoundingClientRect();
+  const headerRect = header.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
+  const isMobile = window.innerWidth < 640;
+  const [margin, cardSize, minDist] = isMobile ? [20, 75, 105] : [40, 120, 140];
+  let mobileBottomMargin = 60;
+  if (isMobile) {
+    const navReservedSpace = navBar
+      ? Math.max(60, Math.ceil(height - navBar.getBoundingClientRect().top + 12))
+      : 60;
+    const dynamicBrowserInset = window.visualViewport
+      ? Math.max(0, Math.ceil(window.innerHeight - window.visualViewport.height - window.visualViewport.offsetTop))
+      : 0;
+    const safeAreaInsetBottomRaw = getComputedStyle(document.documentElement)
+      .getPropertyValue('--mobile-safe-bottom')
+      .trim();
+    const safeAreaInsetBottom = Number.parseFloat(safeAreaInsetBottomRaw) || 0;
+    mobileBottomMargin = navReservedSpace + dynamicBrowserInset + safeAreaInsetBottom;
+  }
+
+  const [topMargin, bottomMargin] = isMobile ? [60, mobileBottomMargin] : [margin, margin];
+  const avoid = {
+    left: headerRect.left - containerRect.left - (isMobile ? 10 : 20),
+    right: headerRect.right - containerRect.left + (isMobile ? 10 : 20),
+    top: headerRect.top - containerRect.top - (isMobile ? 50 : 20),
+    bottom: headerRect.bottom - containerRect.top + (isMobile ? 80 : 20)
+  };
+  const positions = [];
+  const centerX = width / 2;
+  const centerY = height / 2;
+  const hasCollision = (x, y) => {
+    if (x < avoid.right && x + cardSize > avoid.left && y < avoid.bottom && y + cardSize > avoid.top) {
+      return true;
+    }
+    if (x < margin || y < topMargin || x + cardSize > width - margin || y + cardSize > height - bottomMargin) {
+      return true;
+    }
+    const currentCenterX = x + cardSize / 2;
+    const currentCenterY = y + cardSize / 2;
+    return positions.some(pos => {
+      const existingCenterX = pos.x + cardSize / 2;
+      const existingCenterY = pos.y + cardSize / 2;
+      const distance = Math.hypot(currentCenterX - existingCenterX, currentCenterY - existingCenterY);
+      return distance < minDist;
+    });
+  };
+  cards.forEach((card, i) => {
+    let point;
+    for (let attempt = 0; attempt < 80; attempt++) {
+      let x, y;
+      if (attempt < 15) {
+        const cardsPerRing = isMobile ? 6 : 8;
+        const ringNumber = Math.floor(i / cardsPerRing);
+        const positionInRing = i % cardsPerRing;
+        const baseRadius = isMobile ? 80 : 120;
+        const radius = baseRadius + ringNumber * (isMobile ? 70 : 100) + attempt * 10;
+        const angleStep = (2 * Math.PI) / cardsPerRing;
+        const angle = positionInRing * angleStep + ringNumber * 0.3;
+        x = centerX + radius * Math.cos(angle);
+        y = centerY + radius * Math.sin(angle);
+      } else {
+        x = margin + Math.random() * (width - cardSize - margin * 2);
+        y = topMargin + Math.random() * (height - cardSize - topMargin - bottomMargin);
+      }
+      if (!hasCollision(x, y)) {
+        point = { x, y };
+        break;
+      }
+    }
+    point ??= { x: margin, y: height - cardSize - bottomMargin };
+    Object.assign(card.style, { left: `${point.x}px`, top: `${point.y}px` });
+    const dx = point.x + cardSize/2 - centerX;
+    const dy = point.y + cardSize/2 - centerY;
+    const distance = Math.hypot(dx, dy);
+    const scale = distance ? 80 / distance : 0;
+    gsap.set(card, { opacity: 0, scale: 0.3, x: -dx * scale, y: -dy * scale });
+    gsap.to(card, {
+      opacity: 1, scale: 1, x: 0, y: 0,
+      duration: 1.2, delay: 0.1 + Math.random() * 0.6 + distance * 0.0005,
+      ease: "power3.out"
+    });
+    positions.push(point);
+  });
+}
+

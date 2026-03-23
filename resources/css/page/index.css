@@ -1,0 +1,120 @@
+:root {
+  /* Градиент фона */
+  --color-background-top: #F3F3E9;
+  --color-background-top-2: #E0E0D1;
+  --color-background-middle: #B488F1;
+  --color-background-bottom: #E0E0D1;
+  --mobile-safe-bottom: env(safe-area-inset-bottom);
+
+  /* Навигационная панель */
+  --color-hover-current-page: #0F1D07;
+  --color-text-current-page: #90F188;
+}
+
+
+.featured-image-post {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+body {
+  color: #0F1D07; /* Цвет текста */
+  overflow-x: clip;
+}
+
+html {
+  overflow-x: clip;
+}
+
+body:not(.js-ready) #siteNameBar,
+body:not(.js-ready) #siteIconBar {
+  opacity: 0;
+}
+
+.card-link {
+  opacity: 0;
+}
+
+.main-container {
+  overflow-x: hidden;
+}
+
+#expandingContainer {
+  overflow-x: clip;
+}
+
+#carouselContainer {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+#carouselTrack {
+  max-width: 100%;
+  will-change: transform;
+}
+
+/* CTA-кнопки в expandingContainer */
+.cta-btn {
+  background-color: var(--color-hover-current-page);
+  color: var(--color-text-current-page);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.cta-btn:hover,
+.cta-btn:focus-visible {
+  background-color: var(--color-text-current-page);
+  color: var(--color-hover-current-page);
+  outline: none;
+}
+
+#mainHeaderSection {
+  overflow-x: hidden;
+}
+
+@media (min-width: 640px) {
+  .video-center-row {
+    margin-top: 16vh;
+  }
+}
+
+@media (max-width: 640px) {
+  .video-fullscreen-mobile {
+    position: fixed !important;
+    top: 0; left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    z-index: 9999;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .video-fullscreen-mobile::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.90);
+    z-index: 0;
+    pointer-events: none;
+    border-radius: 0 !important;
+  }
+  .video-fullscreen-mobile > video,
+  .video-fullscreen-mobile > button {
+    position: relative;
+    z-index: 1;
+  }
+  .video-fullscreen-mobile video {
+    width: 100vw !important;
+    height: auto !important;
+    max-height: 100vh !important;
+    object-fit: contain;
+    border-radius: 0 !important;
+    display: block;
+  }
+}
+
