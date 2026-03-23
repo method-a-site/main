@@ -140,8 +140,8 @@ if (!isMobile()) {
       scrub: 0.5,
       //markers: true
     },
-    width: "95vw",
-    maxWidth: "95vw",
+    width: "97.5vw",
+    maxWidth: "99vw",
     borderRadius: "0.5rem",
     ease: "none",
     duration: 1,

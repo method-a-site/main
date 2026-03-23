@@ -80,6 +80,7 @@ layout: default
     <footer class="absolute bottom-0 left-0 w-full h-[15vh] flex items-center justify-center pb-26 sm:pb-0">
       <div class="flex flex-row items-center" style="gap: 1px;">
         <a href="/products"
+          onclick="event.preventDefault();"
           class="flex-1 text-center px-8 sm:px-12 py-2 sm:py-3 rounded-l-full font-medium transition-colors duration-300 text-sm sm:text-base min-w-[120px] sm:min-w-[240px]"
           style="background-color: var(--color-hover-current-page); color: var(--color-text-current-page);"
           onmouseover="this.style.backgroundColor='var(--color-text-current-page)';this.style.color='var(--color-hover-current-page)';"
@@ -111,7 +112,7 @@ layout: default
   <div class="slide-section relative z-20 bg-transparent" data-bg="var(--color-background-top-2)">
         <div class="flex justify-center items-center mt-0 sm:mt-14">
     <div id="videoPinWrapper" class="w-full flex justify-center">
-      <div id="videoContainer" class="relative w-[85vw] h-[85vw] max-w-full box-border sm:w-[85vw] sm:h-[90vh]">
+      <div id="videoContainer" class="relative w-[85vw] h-[85vw] max-w-full box-border sm:w-[90vw] sm:h-[90vh]">
         <video id="teamVideo" class="object-cover w-full h-full rounded-3xl" preload="none" playsinline poster="{{ site.data_url }}/data/team/team.jpg">
           <source src="{{ site.data_url }}/data/team/team.mp4" type="video/mp4">
           Ваш браузер не поддерживает видео.
@@ -133,77 +134,69 @@ layout: default
   <div id="videoScrollSpace" class="w-full hidden sm:block"></div>
 
   <div class="slide-section min-h-screen relative z-20 bg-transparent py-16" data-bg="var(--color-background-middle)">
-      <div class="relative px-8 sm:px-14 md:px-28 flex flex-col">
+      
+    
+    
+    <div class="relative px-8 sm:px-14 md:px-18 flex flex-col">
         <h1 class="font-medium mt-[8vh] sm:mt-[12vh] max-w-full text-4xl sm:text-5xl md:text-7xl">Работаем на уровне тех,</h1>
         <h1 class="font-medium sm:mb-16 max-w-full text-4xl sm:text-5xl md:text-7xl">кто мыслит масштабно</h1>
         
         <div class="flex flex-col gap-8 sm:gap-12 w-full mt-4">
           <!-- Карточка 1: Результат (название слева, карточка справа) -->
-          <div class="principle-item grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 items-center mb-8 sm:mb-0">
-            <div class="principle-text order-1">
-              <h3 class="text-2xl sm:text-4xl font-medium mb-4 sm:mb-6 leading-tight">Результат</h3>
-              <p class="text-gray-600 text-base sm:text-lg leading-relaxed mb-8 sm:mb-10">У любого обучения особенно корпоративного должен быть результат. На этапе брифа мы фиксируем, какой результат вы хотите получить и как мы будем его замерять.</p>
-              <div class="grid grid-cols-3 gap-4 sm:gap-8 w-full mt-6">
-                <div class="flex flex-col items-start">
-                  <div class="text-3xl sm:text-5xl font-bold mb-2 sm:mb-3 text-gray-900">
-                    <span class="counter" data-target="93">0</span>%
-                  </div>
-                  <div class="text-xs sm:text-sm text-gray-500 leading-snug">Довольных<br>клиентов</div>
-                </div>
-                <div class="flex flex-col items-start">
-                  <div class="text-3xl sm:text-5xl font-bold mb-2 sm:mb-3 text-gray-900">
-                    <span class="counter" data-target="7">0</span>
-                  </div>
-                  <div class="text-xs sm:text-sm text-gray-500 leading-snug">Лет создания<br>цифровых продуктов</div>
-                </div>
-                <div class="flex flex-col items-start">
-                  <div class="text-3xl sm:text-5xl font-bold mb-2 sm:mb-3 text-gray-900">
-                    <span class="counter" data-target="27">0</span>+
-                  </div>
-                  <div class="text-xs sm:text-sm text-gray-500 leading-snug">Наград от AWA,<br>FWA и Awwwards</div>
-                </div>
-              </div>
+          <div class="principle-item grid grid-cols-1 sm:grid-cols-[4fr_5fr] gap-6 sm:gap-8 sm:items-start mb-8 sm:mb-0">
+            <!-- 1: текст + кнопка -->
+            <div class="principle-text order-1 flex flex-col">
+              <p class="text-gray-600 text-base sm:text-lg leading-relaxed mb-6">У любого обучения особенно корпоративного должен быть результат. На этапе брифа мы фиксируем, какой результат вы хотите получить и как мы будем его замерять.</p>
+              <a href="/about"
+                class="parallax-btn inline-block self-start px-6 py-2 rounded-full font-medium text-sm transition-colors duration-300"
+                style="background-color: var(--color-hover-current-page); color: var(--color-text-current-page);"
+                onmouseover="this.style.backgroundColor='var(--color-text-current-page)';this.style.color='var(--color-hover-current-page)';"
+                onmouseout="this.style.backgroundColor='var(--color-hover-current-page)';this.style.color='var(--color-text-current-page)';">
+                О нас
+              </a>
             </div>
-            <div class="principle-card bg-white rounded-2xl overflow-hidden order-2">
+            <!-- 2: видео — занимает 2 строки на десктопе -->
+            <div class="principle-card bg-white rounded-2xl overflow-hidden order-2 h-[70vw] sm:h-[115vh] sm:row-span-2">
               <video class="principle-video w-full h-full object-cover" muted loop playsinline preload="metadata">
                 <source src="https://ftp.method-a.ru/data/large.mp4" type="video/mp4">
               </video>
             </div>
-          </div>
-
-          <!-- Карточка 2: Открытость (карточка слева, название справа) -->
-          <div class="principle-item grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 items-center mb-8 sm:mb-0">
-            <div class="principle-card bg-white rounded-2xl p-8 flex flex-col items-center justify-center order-2 sm:order-1 min-h-[280px] sm:min-h-[440px]">
-              <div class="w-32 h-32 sm:w-40 sm:h-40 mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                <svg class="w-16 h-16 sm:w-20 sm:h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                </svg>
+            <!-- 3: статистика — после видео на мобильном, снизу левой колонки на десктопе -->
+            <div class="order-3 flex flex-col w-full sm:self-end">
+              <div class="flex flex-row items-center sm:items-stretch py-3 sm:py-5">
+                <div class="w-1/2 text-3xl sm:text-6xl font-bold text-gray-900 leading-none flex items-center">
+                  <span class="counter" data-target="93">0</span>%
+                </div>
+                <div class="w-1/2 text-base sm:text-2xl font-semibold text-gray-900 leading-snug flex flex-col justify-center sm:justify-between">
+                  <span>Довольных</span>
+                  <span>клиентов</span>
+                </div>
               </div>
-            </div>
-            <div class="principle-text order-1 sm:order-2">
-              <h3 class="text-2xl sm:text-3xl font-medium mb-3 leading-tight">Открытость</h3>
-              <p class="text-gray-600 text-base sm:text-lg leading-relaxed">Мы берем проекты любой сложности и выстраиваем процессы так, чтобы вам было понятно, на каком этапе проект и какие есть результаты.</p>
-            </div>
-          </div>
-
-          <!-- Карточка 3: Поддержка (название слева, карточка справа) -->
-          <div class="principle-item grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 items-center mb-8 sm:mb-0">
-            <div class="principle-text order-1">
-              <h3 class="text-2xl sm:text-3xl font-medium mb-3 leading-tight">Поддержка</h3>
-              <p class="text-gray-600 text-base sm:text-lg leading-relaxed">Мы не просто разрабатываем обучение, мы развиваем ваших экспертов, чтобы они тоже выросли в процессе подготовки обучения, а также мы сопровождаем студентов, чтобы поддерживать их мотивацию на пути к цели.</p>
-            </div>
-            <div class="principle-card bg-white rounded-2xl p-8 flex flex-col items-center justify-center order-2 min-h-[280px] sm:min-h-[350px] shadow-md">
-              <div class="w-32 h-32 sm:w-40 sm:h-40 mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                <svg class="w-16 h-16 sm:w-20 sm:h-20 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                </svg>
+              <div class="flex flex-row items-center sm:items-stretch py-3 sm:py-5 border-t border-white/20">
+                <div class="w-1/2 text-3xl sm:text-6xl font-bold text-gray-900 leading-none flex items-center">
+                  <span class="counter" data-target="7">0</span>
+                </div>
+                <div class="w-1/2 text-base sm:text-2xl font-semibold text-gray-900 leading-snug flex flex-col justify-center sm:justify-between">
+                  <span>Лет создания</span>
+                  <span>цифровых продуктов</span>
+                </div>
+              </div>
+              <div class="flex flex-row items-center sm:items-stretch py-3 sm:py-5 border-t border-white/20">
+                <div class="w-1/2 text-3xl sm:text-6xl font-bold text-gray-900 leading-none flex items-center">
+                  <span class="counter" data-target="27">0</span>+
+                </div>
+                <div class="w-1/2 text-base sm:text-2xl font-semibold text-gray-900 leading-snug flex flex-col justify-center sm:justify-between">
+                  <span>Наград от</span>
+                  <span>AWA, FWA и Awwwards</span>
+                </div>
               </div>
             </div>
           </div>
 
         </div>
       </div>
+
+
   </div>
 
   <div class="slide-section h-screen relative z-20 bg-transparent" data-bg="var(--color-background-bottom)">

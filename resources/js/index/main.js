@@ -244,6 +244,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof addCardMagnetEffect === 'function') {
     addCardMagnetEffect();
   }
+  if (typeof addBtnMagnetEffect === 'function') {
+    addBtnMagnetEffect();
+  }
   
   setTimeout(() => {
     if (window.innerWidth < 640) {
