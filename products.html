@@ -6,46 +6,154 @@ layout: default
       rounded-full px-5 py-1 sm:py-2 bg-[var(--color-text-current-page)] text-[var(--color-hover-current-page)] font-semibold text-sm sm:text-base transition-colors duration-200 hover:bg-[var(--color-hover-current-page)] hover:text-[var(--color-text-current-page)] text-center
 ' %}
 
-{% assign tasb_link = '
-  tab-btn rounded-full px-5 py-1 sm:py-2 bg-[var(--color-text-current-page)] text-[var(--color-hover-current-page)] font-semibold text-sm sm:text-base transition-colors duration-200 hover:bg-[var(--color-hover-current-page)] hover:text-[var(--color-text-current-page)] text-center
-' %}
-
 <!-- Секция с фоном и слайдами -->
-<div class="relative w-full">   
+<div class="relative w-full">
 
   <div class="background-blend absolute top-0 left-0 w-full h-full z-10"></div>
-  
-  <div class="slide-section relative z-20 bg-transparent" data-bg="var(--color-background-1)">
-  
-  <div class="relative px-4 sm:px-8 md:px-10">
-    <div class="flex flex-wrap gap-2 sm:gap-4 mt-28 sm:mt-34 md:mt-40 items-stretch gap-y-2 sm:gap-y-2">
-      <a href="#adaptation" class="{{ fast_link }}">Адаптация</a>
-      <a href="#development" class="{{ fast_link }}">Разработка</a>
-      <a href="#renovation" class="{{ fast_link }}">Реновация</a>
+
+  <!-- ===== HERO ===== -->
+  <div class="slide-section relative z-20 bg-transparent" data-bg="var(--color-background-top)">
+
+    <div class="relative px-4 sm:px-8 md:px-10">
+      <div class="flex flex-wrap gap-2 sm:gap-4 mt-28 sm:mt-34 md:mt-40 items-stretch gap-y-2">
+        <a href="#adaptation" class="{{ fast_link }}">Адаптация</a>
+        <a href="#development" class="{{ fast_link }}">Разработка</a>
+        <a href="#renovation" class="{{ fast_link }}">Реновация</a>
+      </div>
+      <h1 class="font-medium mt-[8vh] sm:mt-[12vh] max-w-xl sm:max-w-4xl md:max-w-7xl text-4xl sm:text-6xl md:text-7xl">
+        Готовые решения для образования, которые работают
+      </h1>
+      <p class="mt-4 sm:mt-6 text-base sm:text-lg md:text-xl max-w-3xl leading-relaxed opacity-70">
+        Создаём, адаптируем и обновляем образовательные продукты — от первого исследования до измеримого результата для бизнеса.
+      </p>
+    </div>
+
+    <div class="h-[40vh] sm:h-[50vh]"></div>
+
+  </div>
+
+  <!-- ===== АДАПТАЦИЯ ===== -->
+  <div id="adaptation" class="slide-section min-h-screen relative z-20 bg-transparent" data-bg="var(--color-background-1)">
+    <div class="relative px-8 sm:px-14 md:px-18 flex flex-col pt-[8vh] sm:pt-[12vh]">
+      <span class="text-6xl sm:text-8xl font-bold leading-none mb-4" style="opacity: 0.15;">01</span>
+      <h2 class="font-medium max-w-full text-4xl sm:text-5xl md:text-7xl">Адаптация</h2>
+      <p class="mt-4 sm:mt-6 text-base sm:text-lg max-w-3xl leading-relaxed">
+        Берём существующие программы и перестраиваем под ваши задачи: новую аудиторию, платформу или формат обучения. Сохраняем суть — меняем подход.
+      </p>
+
+      <!-- Feature cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-12">
+        <div class="product-card rounded-2xl p-6 sm:p-8 flex flex-col" style="background: rgba(255,255,255,0.35);">
+          <h3 class="text-lg sm:text-xl font-semibold mb-3">Анализ контента</h3>
+          <p class="text-sm sm:text-base leading-relaxed opacity-70">Аудит текущих материалов, выявление сильных сторон и точек роста.</p>
+        </div>
+        <div class="product-card rounded-2xl p-6 sm:p-8 flex flex-col" style="background: rgba(255,255,255,0.35);">
+          <h3 class="text-lg sm:text-xl font-semibold mb-3">Перепроектирование</h3>
+          <p class="text-sm sm:text-base leading-relaxed opacity-70">Новая структура курса с учётом целевой аудитории и бизнес-задач.</p>
+        </div>
+        <div class="product-card rounded-2xl p-6 sm:p-8 flex flex-col" style="background: rgba(255,255,255,0.35);">
+          <h3 class="text-lg sm:text-xl font-semibold mb-3">Внедрение</h3>
+          <p class="text-sm sm:text-base leading-relaxed opacity-70">Помогаем запустить адаптированный продукт и сопровождаем на старте.</p>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-12 mt-10 sm:mt-14 pb-16">
+        <div class="flex flex-row items-center">
+          <span class="text-3xl sm:text-6xl font-bold leading-none mr-3">2×</span>
+          <span class="text-sm sm:text-base leading-snug opacity-70">быстрее запуск<br>по сравнению с разработкой с нуля</span>
+        </div>
+        <div class="hidden sm:block w-px h-12 opacity-20" style="background: currentColor;"></div>
+        <div class="flex flex-row items-center">
+          <span class="text-3xl sm:text-6xl font-bold leading-none mr-3">85%</span>
+          <span class="text-sm sm:text-base leading-snug opacity-70">клиентов отмечают<br>рост вовлечённости студентов</span>
+        </div>
+      </div>
     </div>
   </div>
 
-      <div class="px-4 sm:px-8 md:px-10 h-screen flex flex-col justify-center" style="transform: translateY(10vh);">
-        <h1 class="text-9xl font-bold leading-none">
-          <span class="block first-lines">Эфективные</span>
-          <span class="block first-lines">Решения</span>
-          <span class="block text-line parallax-text">Которые</span>
-          <span class="block text-line parallax-text">Работают</span>
-        </h1>
+  <!-- ===== РАЗРАБОТКА ===== -->
+  <div id="development" class="slide-section min-h-screen relative z-20 bg-transparent" data-bg="var(--color-background-2)">
+    <div class="relative px-8 sm:px-14 md:px-18 flex flex-col pt-[8vh] sm:pt-[12vh]">
+      <span class="text-6xl sm:text-8xl font-bold leading-none mb-4" style="opacity: 0.15;">02</span>
+      <h2 class="font-medium max-w-full text-4xl sm:text-5xl md:text-7xl">Разработка</h2>
+      <p class="mt-4 sm:mt-6 text-base sm:text-lg max-w-3xl leading-relaxed">
+        Создаём образовательные продукты с нуля: от исследования потребностей до готового курса. Полный цикл — методика, контент, дизайн обучения.
+      </p>
+
+      <!-- Process steps -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-8 sm:mt-12">
+        <div class="product-card rounded-2xl p-6 sm:p-8 flex flex-col" style="background: rgba(255,255,255,0.35);">
+          <span class="text-3xl sm:text-4xl font-bold mb-4 opacity-25">①</span>
+          <h3 class="text-lg sm:text-xl font-semibold mb-2">Исследование</h3>
+          <p class="text-sm sm:text-base leading-relaxed opacity-70">Изучаем аудиторию, цели обучения и бизнес-контекст заказчика.</p>
+        </div>
+        <div class="product-card rounded-2xl p-6 sm:p-8 flex flex-col" style="background: rgba(255,255,255,0.35);">
+          <span class="text-3xl sm:text-4xl font-bold mb-4 opacity-25">②</span>
+          <h3 class="text-lg sm:text-xl font-semibold mb-2">Проектирование</h3>
+          <p class="text-sm sm:text-base leading-relaxed opacity-70">Разрабатываем структуру, сценарии и образовательный опыт.</p>
+        </div>
+        <div class="product-card rounded-2xl p-6 sm:p-8 flex flex-col" style="background: rgba(255,255,255,0.35);">
+          <span class="text-3xl sm:text-4xl font-bold mb-4 opacity-25">③</span>
+          <h3 class="text-lg sm:text-xl font-semibold mb-2">Продакшн</h3>
+          <p class="text-sm sm:text-base leading-relaxed opacity-70">Создаём контент, задания, проверки и визуальное оформление.</p>
+        </div>
+        <div class="product-card rounded-2xl p-6 sm:p-8 flex flex-col" style="background: rgba(255,255,255,0.35);">
+          <span class="text-3xl sm:text-4xl font-bold mb-4 opacity-25">④</span>
+          <h3 class="text-lg sm:text-xl font-semibold mb-2">Запуск</h3>
+          <p class="text-sm sm:text-base leading-relaxed opacity-70">Внедряем на платформу, тестируем со студентами и итерируем.</p>
+        </div>
       </div>
 
-  
-      <div class="h-screen"></div> 
-
-</div>
-
-  <div class="slide-section h-screen relative z-20 bg-transparent" data-bg="var(--color-background-2)" style="color: #FB5E21;">
-  
-    <div class="h-screen"></div>  
+      <!-- Quote -->
+      <div class="mt-12 sm:mt-16 pb-16">
+        <h3 class="text-2xl sm:text-4xl md:text-5xl font-medium max-w-4xl leading-snug">
+          «Каждый курс — это продукт, а&nbsp;не&nbsp;набор слайдов»
+        </h3>
+      </div>
+    </div>
   </div>
 
-  <div class="slide-section h-screen relative z-20 bg-transparent" data-bg="var(--color-background-3)">
-    <div class="h-screen"></div>
+  <!-- ===== РЕНОВАЦИЯ ===== -->
+  <div id="renovation" class="slide-section min-h-screen relative z-20 bg-transparent" data-bg="var(--color-background-3)" style="color: #E0F2E9;">
+    <div class="relative px-8 sm:px-14 md:px-18 flex flex-col pt-[8vh] sm:pt-[12vh]">
+      <span class="text-6xl sm:text-8xl font-bold leading-none mb-4" style="opacity: 0.25;">03</span>
+      <h2 class="font-medium max-w-full text-4xl sm:text-5xl md:text-7xl">Реновация</h2>
+      <p class="mt-4 sm:mt-6 text-base sm:text-lg max-w-3xl leading-relaxed" style="opacity: 0.8;">
+        Обновляем устаревшие курсы, не ломая то, что работает. Анализируем метрики, находим слабые места и делаем продукт актуальным.
+      </p>
+
+      <!-- Before / After grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-8 sm:mt-12">
+        <div class="product-card rounded-2xl p-6 sm:p-8 flex flex-col" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);">
+          <h3 class="text-lg sm:text-xl font-semibold mb-4" style="opacity: 0.5;">Было</h3>
+          <ul class="space-y-3 text-sm sm:text-base leading-relaxed" style="opacity: 0.6;">
+            <li class="flex items-start gap-2"><span class="mt-0.5">—</span><span>Устаревший контент и неактуальные примеры</span></li>
+            <li class="flex items-start gap-2"><span class="mt-0.5">—</span><span>Низкая вовлечённость и высокий отсев</span></li>
+            <li class="flex items-start gap-2"><span class="mt-0.5">—</span><span>Отсутствие практических заданий</span></li>
+            <li class="flex items-start gap-2"><span class="mt-0.5">—</span><span>Нет системы обратной связи</span></li>
+          </ul>
+        </div>
+        <div class="product-card rounded-2xl p-6 sm:p-8 flex flex-col" style="background: rgba(131,234,223,0.12); border: 1px solid rgba(131,234,223,0.25);">
+          <h3 class="text-lg sm:text-xl font-semibold mb-4" style="color: #83EADF;">Стало</h3>
+          <ul class="space-y-3 text-sm sm:text-base leading-relaxed" style="opacity: 0.85;">
+            <li class="flex items-start gap-2"><span class="mt-0.5" style="color:#83EADF;">✓</span><span>Актуальные кейсы из реальной практики</span></li>
+            <li class="flex items-start gap-2"><span class="mt-0.5" style="color:#83EADF;">✓</span><span>Интерактивные форматы и геймификация</span></li>
+            <li class="flex items-start gap-2"><span class="mt-0.5" style="color:#83EADF;">✓</span><span>Проектная работа с менторской поддержкой</span></li>
+            <li class="flex items-start gap-2"><span class="mt-0.5" style="color:#83EADF;">✓</span><span>Встроенная аналитика и итерации</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="mt-12 sm:mt-16 pb-16">
+        <a href="https://t.me/{{ site.telegram_dm }}"
+          class="parallax-btn inline-block self-start px-8 py-3 rounded-full font-medium text-base sm:text-lg transition-colors duration-300"
+          style="background-color: #83EADF; color: #1C3232;">
+          Обсудить проект
+        </a>
+      </div>
+    </div>
   </div>
 
   <div style="height:80vh"></div>
@@ -53,30 +161,6 @@ layout: default
 
 {% include footer.html %}
 
-<style>
-  .text-line {
-    opacity: 0;
-  }
-</style>
-
 <script src="/resources/js/products/main-background.js"></script>
 <script src="/resources/js/smooth-scroll.js"></script>
 <script src="/resources/js/products/words.js"></script>
-
-<script>
-gsap.registerPlugin(ScrollTrigger);
-
-gsap.set('.text-line', { y: 100 });
-
-gsap.to('.parallax-text', {
-  opacity: 1,
-  y: 0,
-  stagger: 0.2,
-  scrollTrigger: {
-    trigger: '.parallax-text',
-    start: 'top 90%',
-    end: 'top 40%',
-    scrub: 1.5
-  }
-});
-</script>

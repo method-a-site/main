@@ -19,40 +19,36 @@
   document.querySelectorAll('.slide-section').forEach((section, i) => {
     ScrollTrigger.create({
       trigger: section,
-      start: "top bottom",
-      end: "top bottom",
-      //markers: true,
+      start: "top center",
+      end: "top center",
       onEnter: () => {
-        // Используем цвет из массива для каждой секции
-        const targetColor = bgColors[i] || bgColors[bgColors.length - 1];
+        const targetColor = i === 0 ? getCssVar('--color-background-top') : bgColors[i];
         gsap.to(bgBlend, { backgroundColor: targetColor, duration: 0.2, ease: "sine.inOut" });
       },
       onLeaveBack: () => {
         if (i > 0) {
-          // При возврате используем предыдущий цвет
-          const targetColor = bgColors[i - 1] || bgColors[0];
+          const targetColor = i === 1 ? getCssVar('--color-background-top') : bgColors[i - 1];
           gsap.to(bgBlend, { backgroundColor: targetColor, duration: 0.2, ease: "sine.inOut" });
         }
       }
     });
   });
 
-  // scrub-animation background-blend - появляется при скролле 4 секции
+  // Scrub animation — reveal footer behind last section
   const scaleVal = 0.95;
   const yBlendVal = "-70vh";
   const ySlideVal = ((1 - scaleVal) * 50) + "vh";
   const slideSections = document.querySelectorAll('.slide-section');
-  const thirdSlide = slideSections[2]; // 3 секция (индекс 2)
+  const lastSlide = slideSections[slideSections.length - 1];
 
   const tl = gsap.timeline({
     scrollTrigger: {
-      trigger: thirdSlide,
+      trigger: lastSlide,
       start: "top center",
       end: "bottom top",
       scrub: true,
-      //markers: true,
       onUpdate: self => {
-        if (self.progress > 0.2) {
+        if (self.progress > 0.9) {
           bgBottom.style.pointerEvents = 'auto';
           slideSections.forEach(sec => sec.style.pointerEvents = 'none');
         } else {
@@ -74,7 +70,22 @@
   .to(bgBottom, {
     opacity: 1
   }, 0)
-  .to(thirdSlide, {
+  .to(lastSlide, {
     scale: scaleVal,
     y: "-" + ySlideVal,
   }, 0);
+
+  // Product cards — entrance animation
+  gsap.utils.toArray('.product-card').forEach(card => {
+    gsap.from(card, {
+      scrollTrigger: {
+        trigger: card,
+        start: "top 88%",
+        toggleActions: "play none none reverse"
+      },
+      y: 30,
+      opacity: 0,
+      duration: 0.5,
+      ease: "power2.out"
+    });
+  });

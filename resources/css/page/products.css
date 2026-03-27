@@ -1,6 +1,9 @@
 :root {
   /* Градиент фона */
   --color-background-top: #DCF5F2;
+  --color-background-1: #C2E8E0;
+  --color-background-2: #E8DFF5;
+  --color-background-3: #1C3232;
 
   /* Навигационная панель */
   --color-hover-current-page: #1C3232;
@@ -9,4 +12,17 @@
 
 body {
   color: #1C3232; /* Цвет текста */
+  scroll-behavior: smooth;
+}
+
+/* Product cards */
+.product-card {
+  will-change: transform;
+  transition: transform 0.3s cubic-bezier(.22,1,.36,1);
+}
+
+@media (min-width: 640px) {
+  .product-card:hover {
+    transform: translateY(-4px);
+  }
 }
