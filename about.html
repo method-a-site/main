@@ -3,7 +3,7 @@ layout: default
 ---
 
 {% assign fast_link = '
-      rounded-full px-5 py-1 sm:py-2 bg-[var(--color-text-current-page)] text-[var(--color-hover-current-page)] font-semibold text-sm sm:text-base transition-colors duration-200 hover:bg-[var(--color-hover-current-page)] hover:text-[var(--color-text-current-page)] text-center
+  rounded-full px-5 py-1 sm:py-2 bg-[var(--color-text-current-page)] text-[var(--color-hover-current-page)] font-semibold text-sm sm:text-base transition-colors duration-200 hover:bg-[var(--color-hover-current-page)] hover:text-[var(--color-text-current-page)] text-center
 ' %}
 
 {% assign tasb_link = '
@@ -27,7 +27,7 @@ layout: default
 
   <div class="flex justify-center items-center mt-[8vh] sm:mt-[16vh]">
     <div id="videoPinWrapper" class="w-full flex justify-center">
-      <div id="videoContainer" class="relative w-[85vw] h-[85vw] max-w-full box-border sm:w-[85vw] sm:h-[90vh]">
+      <div id="videoContainer" class="relative w-[85vw] h-[85vw] max-w-full box-border sm:w-[90vw] sm:h-[90vh]">
         <video id="teamVideo" class="object-cover w-full h-full rounded-3xl" preload="none" playsinline poster="{{ site.data_url }}/data/team/team.jpg">
           <source src="{{ site.data_url }}/data/team/team.mp4" type="video/mp4">
           Ваш браузер не поддерживает видео.
@@ -45,7 +45,7 @@ layout: default
   </div>
 
   
-  <div id="about" class="relative px-8 sm:px-14 md:px-28 flex flex-col flex-1">
+  <div id="about" class="relative px-8 sm:px-14 md:px-18 flex flex-col flex-1">
     <h1 class="font-medium mt-[8vh] sm:mt-[12vh] max-w-full text-4xl sm:text-5xl md:text-7xl">История бюро</h1>
     <div id="tabs" class="flex mt-4 sm:mt-6 md:mt-8 gap-2 sm:gap-4">
       <a href="#history-2025" class="{{ tasb_link }}" data-tab="2025">2025</a>
@@ -140,7 +140,7 @@ layout: default
 </div>
 
 <div class="slide-section h-screen relative z-10 bg-transparent" data-bg="var(--color-background-bottom)">
-    <div id="media" class="relative px-8 sm:px-14 md:px-28">
+    <div id="media" class="relative px-8 sm:px-14 md:px-18">
     <h1 class="font-medium mt-[8vh] sm:mt-[12vh] max-w-full text-4xl sm:text-5xl md:text-7xl">О нас не только говорят</h1>
     <div class="flex gap-8 mt-4 sm:mt-6 md:mt-8">
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8 w-full">
@@ -169,7 +169,7 @@ layout: default
       </div>
     </div>
 
-<div id="team" class="relative px-8 sm:px-14 md:px-28">
+<div id="team" class="relative px-8 sm:px-14 md:px-18">
   <div class="flex grid gap-8 mt-[8vh] sm:mt-[12vh]">
 
       {% assign team_quote = "Результат работы методиста – это счастливые глаза студентов и преподавателей. Поэтому мы проектируем обучение, исходя из потребностей каждой из сторон" %}

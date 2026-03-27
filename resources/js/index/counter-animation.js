@@ -6,8 +6,12 @@ document.querySelectorAll('.principle-item').forEach((item, i) => {
   
   if (counters.length > 0) {
     counters.forEach(counter => {
-      const target = parseInt(counter.getAttribute('data-target'));
+      const raw = counter.getAttribute('data-target');
+      const target = parseFloat(raw);
+      const decimals = raw.includes('.') ? raw.split('.')[1].length : 0;
       
+      const obj = { val: 0 };
+
       gsap.timeline({
         scrollTrigger: {
           trigger: item,
@@ -19,13 +23,14 @@ document.querySelectorAll('.principle-item').forEach((item, i) => {
       })
       // Задержка перед началом анимации счетчиков (после появления карточки)
       .to({}, { duration: 0.5 })
-      .to(counter, {
-        innerText: target,
+      .to(obj, {
+        val: target,
         duration: 1.5,
         ease: 'power1.out',
-        snap: { innerText: 1 },
         onUpdate: function() {
-          counter.innerText = Math.ceil(counter.innerText);
+          counter.innerText = decimals > 0
+            ? obj.val.toFixed(decimals)
+            : Math.ceil(obj.val);
         }
       });
     });

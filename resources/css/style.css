@@ -28,6 +28,39 @@
   color: var(--color-logo);
 }
 
+/* Карточки направлений */
+.direction-card {
+  will-change: transform;
+  transform-origin: top center;
+  transition: transform 0.3s cubic-bezier(.22,1,.36,1);
+}
+
+/* Hover только на десктопе */
+@media (min-width: 768px) {
+  .direction-card:hover {
+    transform: translateY(-6px);
+  }
+}
+
+/* Мобильный sticky stack */
+@media (max-width: 767px) {
+  #directionsStack {
+    gap: 0;
+  }
+  #directionsStack .direction-card {
+    position: sticky;
+    margin-bottom: 0;
+  }
+}
+
+.direction-link svg {
+  transition: transform 0.25s cubic-bezier(.22,1,.36,1);
+}
+
+.direction-link:hover svg {
+  transform: translateX(4px);
+}
+
 /* Скрытие полос прокрутки без влияния на функциональность */
 /* Скрытие только визуальных полос прокрутки, прокрутка остается рабочей */
 ::-webkit-scrollbar {
