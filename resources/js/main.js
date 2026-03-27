@@ -45,10 +45,19 @@ document.addEventListener('DOMContentLoaded', function() {
         closeModalIcon.style.display = 'none';
         modalOverlay.style.clipPath = 'none';
         modalOverlay.style.background = 'transparent';
-        document.body.style.overflow = 'auto';
+        document.body.style.overflow = '';
 
         content.style.opacity = '0';
         content.style.transform = 'scale(0)';
+
+        // Sync smooth-scroll state and refresh ScrollTrigger
+        // so direction-card animations don't break after modal close
+        scrollPos = window.pageYOffset;
+        targetScrollPos = scrollPos;
+        lastKnownScrollPos = scrollPos;
+        if (typeof ScrollTrigger !== 'undefined') {
+          ScrollTrigger.refresh();
+        }
       }
     });
   }
