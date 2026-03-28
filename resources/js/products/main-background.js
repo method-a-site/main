@@ -1,4 +1,5 @@
 // For background animation
+document.addEventListener('DOMContentLoaded', function() {
   gsap.registerPlugin(ScrollTrigger);
 
   function getCssVar(name) {
@@ -14,6 +15,10 @@
 
   const bgBlend = document.querySelector('.background-blend');
   const bgBottom = document.querySelector('.background-bottom');
+
+  // Проверяем что элементы существуют
+  if (!bgBlend || !bgBottom) return;
+
   bgBlend.style.backgroundColor = bgColors[0];
 
   document.querySelectorAll('.slide-section').forEach((section, i) => {
@@ -34,7 +39,7 @@
     });
   });
 
-  // Scrub animation — reveal footer behind last section
+  // scrub-animation background-blend — reveal footer behind last section
   const scaleVal = 0.95;
   const yBlendVal = "-70vh";
   const ySlideVal = ((1 - scaleVal) * 50) + "vh";
@@ -44,18 +49,9 @@
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: lastSlide,
-      start: "top center",
-      end: "bottom top",
+      start: "bottom center",
+      end: "+=200",
       scrub: true,
-      onUpdate: self => {
-        if (self.progress > 0.9) {
-          bgBottom.style.pointerEvents = 'auto';
-          slideSections.forEach(sec => sec.style.pointerEvents = 'none');
-        } else {
-          bgBottom.style.pointerEvents = 'none';
-          slideSections.forEach(sec => sec.style.pointerEvents = '');
-        }
-      }
     }
   });
 
@@ -89,3 +85,5 @@
       ease: "power2.out"
     });
   });
+});
+

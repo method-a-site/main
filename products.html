@@ -3,13 +3,13 @@ layout: default
 ---
 
 {% assign fast_link = '
-      rounded-full px-5 py-1 sm:py-2 bg-[var(--color-text-current-page)] text-[var(--color-hover-current-page)] font-semibold text-sm sm:text-base transition-colors duration-200 hover:bg-[var(--color-hover-current-page)] hover:text-[var(--color-text-current-page)] text-center
+      parallax-btn rounded-full px-5 py-1 sm:py-2 bg-[var(--color-text-current-page)] text-[var(--color-hover-current-page)] font-semibold text-sm sm:text-base transition-colors duration-200 hover:bg-[var(--color-hover-current-page)] hover:text-[var(--color-text-current-page)] text-center
 ' %}
 
 <!-- Секция с фоном и слайдами -->
 <div class="relative w-full">
 
-  <div class="background-blend absolute top-0 left-0 w-full h-full z-10"></div>
+  <div class="background-blend absolute top-0 left-0 w-full h-full z-10 pointer-events-none"></div>
 
   <!-- ===== HERO ===== -->
   <div class="slide-section relative z-20 bg-transparent" data-bg="var(--color-background-top)">

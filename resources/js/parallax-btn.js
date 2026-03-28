@@ -5,6 +5,9 @@ function addBtnMagnetEffect() {
   const btns = document.querySelectorAll('.parallax-btn');
 
   btns.forEach(btn => {
+    if (btn._magnetAttached) return;
+    btn._magnetAttached = true;
+
     let magnetTween = null;
 
     btn.addEventListener('mousemove', (e) => {
@@ -35,3 +38,6 @@ function addBtnMagnetEffect() {
     });
   });
 }
+
+// Auto-init: apply magnet effect as soon as this script loads
+addBtnMagnetEffect();
