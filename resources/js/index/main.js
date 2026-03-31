@@ -83,7 +83,7 @@ function loopCarousel() {
   
   carouselAnimation = gsap.to(track, {
     x: targetX,
-    duration: 5,
+    duration: 7.5,
     ease: screenWidth >= 640 ? "power1.inOut" : "sine.inOut",
     onComplete: () => {
       if (!isResizing && cards.length > 0) {
