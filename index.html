@@ -193,9 +193,17 @@ layout: default
             </div>
             <!-- 2: видео — занимает 2 строки на десктопе -->
             <div class="principle-card bg-white rounded-2xl overflow-hidden order-2 h-[70vw] sm:h-[115vh] sm:row-span-2">
-              <video class="principle-video w-full h-full object-cover" muted loop playsinline preload="metadata">
-                <source src="https://ftp.method-a.ru/data/large.mp4" type="video/mp4">
-              </video>
+              <picture class="block w-full h-full">
+                <!-- Tailwind `sm` breakpoint is 640px -->
+                <source media="(min-width: 640px)" srcset="https://ftp.method-a.ru/data/main/main_pc.jpg" />
+                <img
+                  src="https://ftp.method-a.ru/data/main/main_mobile.jpg"
+                  alt=""
+                  class="principle-image w-full h-full object-cover"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
             <!-- 3: статистика — после видео на мобильном, снизу левой колонки на десктопе -->
             <div class="order-3 flex flex-col w-full sm:self-end">
